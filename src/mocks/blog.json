@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Beach Day",
+    "desc": "This is a wonderful day, let's go to the beach!"
+  },
+  {
+    "id": 2,
+    "title": "Workout",
+    "desc": "Workout is so much fun!"
+  },
+  {
+    "id": 3,
+    "title": "Eat Healthy",
+    "desc": "Vegetables are healthy!"
+  },
+  {
+    "id": 4,
+    "title": "Live Music",
+    "desc": "Music is so much fun!"
+  },
+  {
+    "id": 5,
+    "title": "Business Trip",
+    "desc": "I'm going on a business trip!"
+  },
+  {
+    "id": 6,
+    "title": "Trump vs Biden",
+    "desc": "In 2021, I won the election!"
+  }
+]
