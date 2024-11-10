@@ -12,7 +12,7 @@ export default function Journal() {
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
-  const handleOnSubmit = async (text: string) => {
+  const getBlogs = async (text: string) => {
     // TODO: request
     await new Promise(resolve => setTimeout(resolve, 500));
     try {
@@ -28,7 +28,7 @@ export default function Journal() {
 
 
   useEffect(() => {
-    handleOnSubmit(searchText);
+    getBlogs(searchText);
   }, [searchText]);
 
 
