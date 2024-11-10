@@ -1,6 +1,6 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
@@ -12,26 +12,24 @@ export default function Journal() {
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
-  // TODO: request
-  const getBlogs = async (text: string) => {
+  const handleOnSubmit = async (text: string) => {
+    // TODO: request
     await new Promise(resolve => setTimeout(resolve, 500));
-    return blogData.filter(blog => (
-      blog.title.toLowerCase().includes(text.toLowerCase()) ||
-      blog.desc.toLowerCase().includes(text.toLowerCase())
-    ));
-  }
+    try {
+      const filteredBlogs = blogData.filter(blog => (
+        blog.title.toLowerCase().includes(text.toLowerCase()) ||
+        blog.desc.toLowerCase().includes(text.toLowerCase())
+      ));
+      setBlogs(filteredBlogs);
+    } catch {
+      console.error('Failed to request');
+    }
+  };
 
 
-  const handleOnSubmit = useCallback(async (text: string) => {
-    const blogData = await getBlogs(text);
-    setBlogs(blogData);
-  }, []);
-
-
-  // TODO: 研究 useEffect 的用法
   useEffect(() => {
     handleOnSubmit(searchText);
-  }, [searchText, handleOnSubmit]);
+  }, [searchText]);
 
 
   return (
