@@ -7,25 +7,24 @@ import BlogCard from '@/components/BlogCard';
 import blogData from '@/mocks/blog.json';
 
 
-export default function Search() {
+export default function Journal() {
   const searchText = useSearchParams().get('search') || '';
+  const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
   // TODO: request
   const getBlogs = async (text: string) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
     return blogData.filter(blog => (
       blog.title.toLowerCase().includes(text.toLowerCase()) ||
       blog.desc.toLowerCase().includes(text.toLowerCase())
     ));
   }
-  const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
   const handleOnSubmit = useCallback(async (text: string) => {
     const blogData = await getBlogs(text);
     setBlogs(blogData);
-    history.pushState(null, '', text ? `?search=${text}` : '/');
   }, []);
 
 
@@ -36,10 +35,9 @@ export default function Search() {
 
 
   return (
-    <>
+    <div className='util-container flex flex-col items-center gap-8 pt-8'>
       <SearchBox
-        searchText={searchText}
-        handleOnSubmit={handleOnSubmit}
+        defaultValue={searchText}
       />
       <div className='w-full grid grid-cols-3 gap-8'>
         {
@@ -51,6 +49,6 @@ export default function Search() {
           )
         }
       </div>
-    </>
+    </div>
   );
 };

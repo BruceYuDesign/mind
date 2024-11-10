@@ -1,28 +1,26 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 
 interface SearchBoxProps {
-  searchText: string;
-  handleOnSubmit: (searchText: string) => void;
+  defaultValue?: string;
 }
 
 
 export default function SearchBox(props: SearchBoxProps) {
-  const [searchText, setSearchText] = useState<string>(props.searchText);
+  const router = useRouter();
+  const [text, setText] = useState(props.defaultValue || '');
 
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearchText(value);
-    if (value === '') {
-      props.handleOnSubmit('');
-    };
-  };
+    setText(event.target.value);
+  }
 
 
   const handleOnSubmit = () => {
-    props.handleOnSubmit(searchText);
+    const href = `/journal${text ? `?search=${text}` : ''}`;
+    router.push(href);
   };
 
 
@@ -32,7 +30,7 @@ export default function SearchBox(props: SearchBoxProps) {
         className='pl-6 flex-grow bg-transparent outline-none'
         type='text'
         placeholder='Search Something...'
-        value={searchText}
+        value={text}
         onChange={handleOnChange}
       />
       <button

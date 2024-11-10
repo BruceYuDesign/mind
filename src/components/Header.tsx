@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+
 export default function Header() {
   return (
     <header
@@ -9,11 +12,12 @@ export default function Header() {
         className='util-container
         h-[72px] flex flex-row justify-between items-center'
       >
-        <h1
+        <Link
           className='text-3xl font-bold'
+          href='/'
         >
           MiND
-        </h1>
+        </Link>
         <ul className='flex flex-row gap-4'>
           <li
             className='text-base cursor-pointer hover:underline'
