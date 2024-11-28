@@ -19,7 +19,7 @@ export default function SearchBox(props: SearchBoxProps) {
 
 
   const handleOnSubmit = () => {
-    const href = `/journal${text ? `?search=${text}` : ''}`;
+    const href = `/search${text ? `?text=${text}` : ''}`;
     router.push(href);
   };
 

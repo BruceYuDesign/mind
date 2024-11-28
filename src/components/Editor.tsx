@@ -1,12 +1,12 @@
-// 'use client';
-import { useState } from 'react';
+'use client';
+import { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
-// import { useAuth } from '@/context/AuthContext';
 import 'react-quill/dist/quill.snow.css';
 
 
 interface EditorProps {
-  initialContent?: string;
+  initialContent: string;
+  editorOnSave: (content: string) => void;
 };
 
 
@@ -24,23 +24,27 @@ const quillModules = {
 
 
 function Editor(props: EditorProps) {
-  const [content, setContent] = useState(props.initialContent);
-  // const { account, login } = useAuth();
+  const { initialContent } = props;
+  const [content, setContent] = useState<string>(initialContent);
+
 
   const editorOnChange = (value: string) => {
     setContent(value);
   };
 
+
   const editorOnSave = () => {
-    console.log(content);
-    // login(content as string);
+    props.editorOnSave(content);
   };
+
+
+  useEffect(() => {
+    setContent(initialContent);
+  }, [initialContent]);
+
 
   return (
     <>
-      {/* <h1>
-        {account}
-      </h1> */}
       <ReactQuill
         value={content}
         placeholder='Type here...'

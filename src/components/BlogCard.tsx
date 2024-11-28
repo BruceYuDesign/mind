@@ -1,15 +1,26 @@
+import Link from 'next/link';
+
+
 export interface BlogCardProps {
-  id: number;
+  blog_id: string;
+  slug: string;
+  account: string;
   title: string;
-  desc: string;
+  description: string;
+  thumbnail: string;
+  created_at: string;
+  updated_at: string;
+  tags: string[];
+  groups: string[];
 };
 
 
 export default function BlogCard(props: BlogCardProps) {
-  const { id, title, desc } = props;
+  const { blog_id, account, title, description, slug } = props;
   return (
-    <a
+    <Link
       className='flex flex-col gap-2 text-foreground cursor-pointer bg-background px-6 py-4 border border-slate-100 shadow-slate-200 shadow-md rounded-2xl'
+      href={`/${account}/${slug}/${blog_id}`}
     >
       <div
         className='w-full aspect-opengraph bg-slate-200'
@@ -19,8 +30,8 @@ export default function BlogCard(props: BlogCardProps) {
         {title}
       </p>
       <p>
-        {desc}
+        {description}
       </p>
-    </a>
+    </Link>
   );
 };

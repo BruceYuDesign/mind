@@ -1,14 +1,14 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
 import blogData from '@/mocks/blog.json';
 
 
-export default function Journal() {
-  const searchText = useSearchParams().get('search') || '';
+function BlogsContent() {
+  const searchText = useSearchParams().get('text') || '';
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
@@ -18,7 +18,7 @@ export default function Journal() {
     try {
       const filteredBlogs = blogData.filter(blog => (
         blog.title.toLowerCase().includes(text.toLowerCase()) ||
-        blog.desc.toLowerCase().includes(text.toLowerCase())
+        blog.description.toLowerCase().includes(text.toLowerCase())
       ));
       setBlogs(filteredBlogs);
     } catch {
@@ -33,7 +33,10 @@ export default function Journal() {
 
 
   return (
-    <div className='util-container flex flex-col items-center gap-8 pt-8'>
+    <div
+      className='util-container
+      flex flex-col items-center gap-8 pt-8'
+    >
       <SearchBox
         defaultValue={searchText}
       />
@@ -41,7 +44,7 @@ export default function Journal() {
         {
           blogs.map(blog =>
             <BlogCard
-              key={blog.id}
+              key={blog.blog_id}
               {...blog}
             />
           )
@@ -50,3 +53,12 @@ export default function Journal() {
     </div>
   );
 };
+
+
+export default function Blogs() {
+  return (
+    <Suspense>
+      <BlogsContent/>
+    </Suspense>
+  );
+}

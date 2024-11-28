@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import SearchBox from '@/components/SearchBox';
 
 
@@ -13,12 +14,11 @@ export default function Home() {
       <h2 className='text-4xl font-bold'>
         隨時記錄你的想法
       </h2>
-      <button
-        className=''
-        type='button'
+      <Link
+        href='/your-account'
       >
         建立你的想法
-      </button>
+      </Link>
       <span>
         或是
       </span>

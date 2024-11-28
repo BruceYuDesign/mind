@@ -1,32 +1,50 @@
 [
   {
-    "id": 1,
+    "blog_id": "3cc0f718e78f",
+    "slug": "beach-day",
+    "account": "bruceyudesign2021",
     "title": "Beach Day",
-    "desc": "This is a wonderful day, let's go to the beach!"
+    "description": "This is a wonderful day, let's go to the beach!",
+    "thumbnail": "https://my-images/beach-day.jpg",
+    "created_at": "2021-01-01T00:00:00Z",
+    "updated_at": "2021-01-01T00:00:00Z",
+    "tags": ["beach", "day", "fun"],
+    "groups": ["travel", "lifestyle"]
   },
   {
-    "id": 2,
-    "title": "Workout",
-    "desc": "Workout is so much fun!"
+    "blog_id": "dccff718e78f",
+    "slug": "eat-day",
+    "account": "arnold5445",
+    "title": "Eat Day",
+    "description": "This is a wonderful day, let's eat a lot!",
+    "thumbnail": "https://my-images/eating.jpg",
+    "created_at": "2021-01-01T00:00:00Z",
+    "updated_at": "2021-01-01T00:00:00Z",
+    "tags": ["eating"],
+    "groups": ["lifestyle"]
   },
   {
-    "id": 3,
-    "title": "Eat Healthy",
-    "desc": "Vegetables are healthy!"
+    "blog_id": "3cc0f718e78f",
+    "slug": "beach-day",
+    "account": "bruceyudesign2021",
+    "title": "Beach Day",
+    "description": "This is a wonderful day, let's go to the beach!",
+    "thumbnail": "https://my-images/beach-day.jpg",
+    "created_at": "2021-01-01T00:00:00Z",
+    "updated_at": "2021-01-01T00:00:00Z",
+    "tags": ["beach", "day", "fun"],
+    "groups": ["travel", "lifestyle"]
   },
   {
-    "id": 4,
-    "title": "Live Music",
-    "desc": "Music is so much fun!"
-  },
-  {
-    "id": 5,
-    "title": "Business Trip",
-    "desc": "I'm going on a business trip!"
-  },
-  {
-    "id": 6,
-    "title": "Trump vs Biden",
-    "desc": "In 2021, I won the election!"
+    "blog_id": "dccff718e78f",
+    "slug": "eat-day",
+    "account": "arnold5445",
+    "title": "Eat Day",
+    "description": "This is a wonderful day, let's eat a lot!",
+    "thumbnail": "https://my-images/eating.jpg",
+    "created_at": "2021-01-01T00:00:00Z",
+    "updated_at": "2021-01-01T00:00:00Z",
+    "tags": ["eating"],
+    "groups": ["lifestyle"]
   }
 ]
