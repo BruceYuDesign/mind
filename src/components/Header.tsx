@@ -18,18 +18,11 @@ export default function Header() {
         >
           MiND
         </Link>
-        <ul className='flex flex-row gap-4'>
-          <li
-            className='text-base cursor-pointer hover:underline'
-          >
-            登入
-          </li>
-          <li
-            className='text-base cursor-pointer hover:underline'
-          >
-            註冊
-          </li>
-        </ul>
+        <Link
+          href='/bruce'
+        >
+          <div className='w-12 h-12 rounded-full bg-slate-200'></div>
+        </Link>
       </div>
     </header>
   );

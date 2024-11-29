@@ -22,10 +22,16 @@ export default function BlogCard(props: BlogCardProps) {
       className='flex flex-col gap-2 text-foreground cursor-pointer bg-background px-6 py-4 border border-slate-100 shadow-slate-200 shadow-md rounded-2xl'
       href={`/${account}/${slug}/${blog_id}`}
     >
-      <div
-        className='w-full aspect-opengraph bg-slate-200'
+      <div className='w-full aspect-opengraph bg-slate-200'></div>
+      <Link
+        className='flex flex-row gap-2 items-center'
+        href={`/${account}`}
       >
-      </div>
+        <div className='w-8 h-8 rounded-full bg-slate-200'></div>
+        <p className='text-sm'>
+          {account}
+        </p>
+      </Link>
       <p className='font-bold text-2xl'>
         {title}
       </p>

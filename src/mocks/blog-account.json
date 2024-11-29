@@ -12,18 +12,6 @@
     "groups": ["travel", "lifestyle"]
   },
   {
-    "blog_id": "dccff718e78f",
-    "slug": "eat-day",
-    "account": "arnold5445",
-    "title": "Eat Day",
-    "description": "This is a wonderful day, let's eat a lot!",
-    "thumbnail": "https://my-images/eating.jpg",
-    "created_at": "2021-01-01T00:00:00Z",
-    "updated_at": "2021-01-01T00:00:00Z",
-    "tags": ["eating"],
-    "groups": ["lifestyle"]
-  },
-  {
     "blog_id": "3cc0f718aa8f",
     "slug": "beach-day",
     "account": "bruce",
@@ -34,17 +22,5 @@
     "updated_at": "2021-01-01T00:00:00Z",
     "tags": ["beach", "day", "fun"],
     "groups": ["travel", "lifestyle"]
-  },
-  {
-    "blog_id": "dccfce18e78f",
-    "slug": "eat-day",
-    "account": "arnold5445",
-    "title": "Eat Day",
-    "description": "This is a wonderful day, let's eat a lot!",
-    "thumbnail": "https://my-images/eating.jpg",
-    "created_at": "2021-01-01T00:00:00Z",
-    "updated_at": "2021-01-01T00:00:00Z",
-    "tags": ["eating"],
-    "groups": ["lifestyle"]
   }
 ]

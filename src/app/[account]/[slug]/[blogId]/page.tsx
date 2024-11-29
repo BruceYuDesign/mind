@@ -8,6 +8,7 @@ import DeleteBlogModal from './components/DeleteBlogModal';
 
 interface BlogLayoutProps {
   params: {
+    account: string;
     blogId: string;
   };
 };
@@ -27,7 +28,7 @@ export default async function BlogPage(props: BlogLayoutProps) {
 
 
   const toolbarButtons = () => {
-    const isYourBlog = false;
+    const isYourBlog = props.params.account === 'bruce';
     if (isYourBlog) {
       return (
         <ModalProvider>

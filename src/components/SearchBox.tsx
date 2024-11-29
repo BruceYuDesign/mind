@@ -34,7 +34,7 @@ export default function SearchBox(props: SearchBoxProps) {
         onChange={handleOnChange}
       />
       <button
-        className='bg-primary text-white font-bold text-foreground px-6 py-2 rounded-full'
+        className='bg-black text-white font-bold text-foreground px-6 py-2 rounded-full'
         type='button'
         onClick={handleOnSubmit}
       >

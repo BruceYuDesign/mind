@@ -7,7 +7,7 @@ import BlogCard from '@/components/BlogCard';
 import blogData from '@/mocks/blog.json';
 
 
-function BlogsContent() {
+function SearchPageContent() {
   const searchText = useSearchParams().get('text') || '';
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
@@ -55,10 +55,10 @@ function BlogsContent() {
 };
 
 
-export default function Blogs() {
+export default function SearchPage() {
   return (
     <Suspense>
-      <BlogsContent/>
+      <SearchPageContent/>
     </Suspense>
   );
 }

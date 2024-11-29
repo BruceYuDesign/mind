@@ -1,5 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
 import Modal from '@/components/Modal';
 const Editor = dynamic(() => import('@/components/Editor'), {
@@ -14,14 +15,13 @@ interface UpdateBlogModalProps {
 
 
 export default function UpdateBlogModal(props: UpdateBlogModalProps) {
-
-
+  const router = useRouter();
   const { setActiveModal } = useModal();
 
 
   const handleBlogOnUpdate = async (content: string) => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    console.log(content);
+    router.refresh();
     setActiveModal(null);
   }
 

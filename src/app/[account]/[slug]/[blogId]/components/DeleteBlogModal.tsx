@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
 import Modal from '@/components/Modal';
 
@@ -9,8 +10,7 @@ interface DeleteBlogModalProps {
 
 
 export default function DeleteBlogModal(props: DeleteBlogModalProps) {
-
-
+  const router = useRouter();
   const { setActiveModal } = useModal();
 
 
@@ -22,7 +22,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
   const handleBlogOnDelete = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log(props.blogId);
-    closeModal();
+    router.push('../');
   }
 
 
