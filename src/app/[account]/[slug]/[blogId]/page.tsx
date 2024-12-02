@@ -6,7 +6,7 @@ import UpdateBlogModal from './components/UpdateBlogModal';
 import DeleteBlogModal from './components/DeleteBlogModal';
 
 
-interface BlogLayoutProps {
+interface BlogPageProps {
   params: {
     account: string;
     blogId: string;
@@ -14,7 +14,7 @@ interface BlogLayoutProps {
 };
 
 
-export default async function BlogPage(props: BlogLayoutProps) {
+export default async function BlogPage(props: BlogPageProps) {
 
 
   const getBlog = async () => {
@@ -28,8 +28,9 @@ export default async function BlogPage(props: BlogLayoutProps) {
 
 
   const toolbarButtons = () => {
-    const isYourBlog = props.params.account === 'bruce';
-    if (isYourBlog) {
+    // TODO: compare account
+    const isAuther = props.params.account === 'bruce';
+    if (isAuther) {
       return (
         <ModalProvider>
           <AutherTools/>
@@ -47,7 +48,6 @@ export default async function BlogPage(props: BlogLayoutProps) {
         <ReaderTools
           blogId={props.params.blogId}
           isCollected={false}
-          isLiked={false}
           isFollowed={false}
         />
       )

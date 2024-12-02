@@ -1,23 +1,41 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
+import { ModalProvider } from '@/context/ModalContext';
+import AutherTools from './components/AutherTools';
+import ReaderTools from './components/ReaderTools';
 import BlogCard from '@/components/BlogCard';
 import blogData from '@/mocks/blog-account.json';
 
 
-export default function AccountPage() {
+interface AccountPageProps {
+  params: {
+    account: string;
+  };
+};
+
+
+export default function AccountPage(props: AccountPageProps) {
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
 
 
   const toolbarButtons = () => {
-    const isYourBlog = true;
-    if (isYourBlog) {
+    // TODO: compare account
+    const isAuther = props.params.account === 'bruce';
+    if (isAuther) {
       return (
-        <></>
+        <ModalProvider>
+          <AutherTools
+            account={props.params.account}
+          />
+        </ModalProvider>
       )
     } else {
       return (
-        <></>
+        <ReaderTools
+          account={props.params.account}
+          isFollowed={false}
+        />
       )
     }
   }

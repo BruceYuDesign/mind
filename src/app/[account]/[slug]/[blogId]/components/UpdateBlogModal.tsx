@@ -1,5 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
 import Modal from '@/components/Modal';
@@ -24,6 +25,11 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
     router.refresh();
     setActiveModal(null);
   }
+
+
+  useEffect(() => {
+    console.log(props.content);
+  }, [props.content]);
 
 
   return (

@@ -3,8 +3,6 @@ import { useModal } from '@/context/ModalContext';
 
 
 export default function AutherTools() {
-
-
   const { setActiveModal } = useModal();
 
 
