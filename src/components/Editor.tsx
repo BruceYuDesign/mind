@@ -28,12 +28,12 @@ function Editor(props: EditorProps) {
   const [content, setContent] = useState<string>(initialContent);
 
 
-  const editorOnChange = (value: string) => {
+  const changeContent = (value: string) => {
     setContent(value);
   };
 
 
-  const editorOnSave = () => {
+  const handleEditorOnSave = () => {
     props.editorOnSave(content);
   };
 
@@ -48,11 +48,11 @@ function Editor(props: EditorProps) {
       <ReactQuill
         value={content}
         placeholder='Type here...'
-        onChange={editorOnChange}
+        onChange={changeContent}
         modules={quillModules}
       />
       <button
-        onClick={editorOnSave}
+        onClick={handleEditorOnSave}
         type='button'
       >
         Save

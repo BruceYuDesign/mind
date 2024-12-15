@@ -15,7 +15,7 @@ export default function AutherTools(props: AutherToolsProps) {
 
 
   const openCreateBlogModal = () => {
-    setActiveModal('create-blog-modal');
+    setActiveModal('create-blog');
   }
 
 

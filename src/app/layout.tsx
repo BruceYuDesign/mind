@@ -20,6 +20,7 @@ export default function RootLayout({
     <StrictMode>
       <html
         lang='ZH-Hant-TW'
+        suppressHydrationWarning={false}
       >
         <body>
           <Header/>

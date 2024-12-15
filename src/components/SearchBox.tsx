@@ -13,12 +13,12 @@ export default function SearchBox(props: SearchBoxProps) {
   const [text, setText] = useState(props.defaultValue || '');
 
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   }
 
 
-  const handleOnSubmit = () => {
+  const handleSearchBoxOnSubmit = () => {
     const href = `/search${text ? `?text=${text}` : ''}`;
     router.push(href);
   };
@@ -31,12 +31,12 @@ export default function SearchBox(props: SearchBoxProps) {
         type='text'
         placeholder='Search Something...'
         value={text}
-        onChange={handleOnChange}
+        onChange={changeText}
       />
       <button
         className='bg-black text-white font-bold text-foreground px-6 py-2 rounded-full'
         type='button'
-        onClick={handleOnSubmit}
+        onClick={handleSearchBoxOnSubmit}
       >
         搜尋
       </button>

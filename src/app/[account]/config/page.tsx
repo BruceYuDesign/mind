@@ -1,62 +1,78 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { ModalProvider, useModal } from '@/context/ModalContext';
+import UpdateAvatarModal from './components/UpdateAvatarModal';
+import UpdateIntroModal from './components/UpdateIntroModal';
 
 
-interface BlogPageProps {
+interface ConfigPageProps {
   params: {
     account: string;
   };
 };
 
 
-export default function BlogPage(props: BlogPageProps) {
-  const [introduce, setIntroduce] = useState('');
+function ConfigPageContent(props: ConfigPageProps) {
+  const { setActiveModal } = useModal();
+  const [intro, setIntro] = useState('');
   const [avatar, setAvatar] = useState('');
 
 
-  const introduceOnChange = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setIntroduce(event.target.value);
+  const openEditAvatarModal = () => {
+    setActiveModal('update-avatar');
+  }
+
+
+  const openUpdateIntroModal = () => {
+    setActiveModal('update-intro');
   }
 
 
   useEffect(() => {
-    const getIntroduce = async () => {
+    const getProfile = async () => {
       // TODO: request
       await new Promise(resolve => setTimeout(resolve, 500));
-      setIntroduce('hello world');
+      setIntro('hello world');
       setAvatar('https://via.placeholder.com/150');
     }
-    getIntroduce();
+    getProfile();
   }, []);
 
 
   return (
-    <div>
-      <div>
+    <>
+      <div
+        onClick={openEditAvatarModal}
+      >
         <img
           src={avatar}
           alt='avatar'
-        />
-        <input
-          type='file'
-          accept='image/png, image/gif, image/jpeg'
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              if (reader.readyState === 2) {
-                setAvatar(reader.result as string);
-              }
-            };
-            if (event.target.files) {
-              reader.readAsDataURL(event.target.files[0]);
-            }
-          }}
+          width={150}
+          height={150}
         />
       </div>
-      <textarea
-        value={introduce}
-        onChange={introduceOnChange}
+      <p
+        onClick={openUpdateIntroModal}
+      >
+        {intro}
+      </p>
+      <UpdateAvatarModal
+        avatar={avatar}
       />
-    </div>
+      <UpdateIntroModal
+        intro={intro}
+      />
+    </>
   );
 };
+
+
+export default function ConfigPage(props: ConfigPageProps) {
+  return (
+    <ModalProvider>
+      <ConfigPageContent
+        {...props}
+      />
+    </ModalProvider>
+  );
+}

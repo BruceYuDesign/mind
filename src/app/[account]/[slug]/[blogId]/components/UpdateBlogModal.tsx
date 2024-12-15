@@ -34,7 +34,7 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
 
   return (
     <Modal
-      id='update-blog-modal'
+      id='update-blog'
       title='更新'
       size='lg'
     >

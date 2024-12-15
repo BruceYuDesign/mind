@@ -29,7 +29,6 @@ export function ModalProvider(props: ModalProviderProps) {
 };
 
 
-
 export function useModal() {
   const context = useContext(ModalContext);
   if (!context) {

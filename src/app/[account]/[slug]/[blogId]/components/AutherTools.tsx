@@ -7,12 +7,12 @@ export default function AutherTools() {
 
 
   const openUpdateBlogModal = () => {
-    setActiveModal('update-blog-modal');
+    setActiveModal('update-blog');
   }
 
 
   const openDeleteBlogModal = () => {
-    setActiveModal('delete-blog-modal');
+    setActiveModal('delete-blog');
   }
 
 

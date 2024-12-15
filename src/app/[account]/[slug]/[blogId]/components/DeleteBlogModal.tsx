@@ -28,7 +28,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
 
   return (
     <Modal
-      id='delete-blog-modal'
+      id='delete-blog'
       title='確認刪除'
       size='md'
     >
