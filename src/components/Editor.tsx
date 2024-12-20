@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 
 interface EditorProps {
   initialContent: string;
-  editorOnSave: (content: string) => void;
+  saveContent: (content: string) => void;
 };
 
 
@@ -33,8 +33,8 @@ function Editor(props: EditorProps) {
   };
 
 
-  const handleEditorOnSave = () => {
-    props.editorOnSave(content);
+  const saveContent = () => {
+    props.saveContent(content);
   };
 
 
@@ -52,7 +52,7 @@ function Editor(props: EditorProps) {
         modules={quillModules}
       />
       <button
-        onClick={handleEditorOnSave}
+        onClick={saveContent}
         type='button'
       >
         Save

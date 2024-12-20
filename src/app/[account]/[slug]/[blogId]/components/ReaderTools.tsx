@@ -14,13 +14,13 @@ export default function ReaderTools(props: ReaderToolsProps) {
   const [isFollowed, setIsFollowed] = useState(props.isFollowed);
 
 
-  const toggleCollected = async () => {
+  const updateCollected = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsCollected(!isCollected);
   }
 
 
-  const toggleFollowed = async () => {
+  const updateFollowed = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsFollowed(!isFollowed);
   }
@@ -30,13 +30,13 @@ export default function ReaderTools(props: ReaderToolsProps) {
     <>
       <button
         type='button'
-        onClick={toggleCollected}
+        onClick={updateCollected}
       >
         {isCollected ? '已收藏' : '收藏'}
       </button>
       <button
         type='button'
-        onClick={toggleFollowed}
+        onClick={updateFollowed}
       >
         {isFollowed ? '已追蹤' : '追蹤'}
       </button>

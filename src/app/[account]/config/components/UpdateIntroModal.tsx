@@ -26,7 +26,7 @@ export default function UpdateIntroModal(props: UpdateIntroModal) {
   }
 
 
-  const handleIntroOnUpdate = async () => {
+  const updateIntro = async () => {
     if (intro !== props.intro) {
       await new Promise(resolve => setTimeout(resolve, 500));
       router.refresh();
@@ -60,7 +60,7 @@ export default function UpdateIntroModal(props: UpdateIntroModal) {
       </button>
       <button
         type='button'
-        onClick={handleIntroOnUpdate}
+        onClick={updateIntro}
       >
         確定
       </button>

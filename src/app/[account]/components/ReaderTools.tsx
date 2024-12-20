@@ -12,7 +12,7 @@ export default function ReaderTools(props: ReaderToolsProps) {
   const [isFollowed, setIsFollowed] = useState(props.isFollowed);
 
 
-  const toggleFollowed = async () => {
+  const updateFollowed = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsFollowed(!isFollowed);
   }
@@ -22,7 +22,7 @@ export default function ReaderTools(props: ReaderToolsProps) {
     <>
       <button
         type='button'
-        onClick={toggleFollowed}
+        onClick={updateFollowed}
       >
         {isFollowed ? '已追蹤' : '追蹤'}
       </button>

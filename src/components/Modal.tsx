@@ -21,7 +21,7 @@ export default function Modal(props: ModalProps) {
   const { activeModal, setActiveModal } = useModal();
 
 
-  const handleClose = () => {
+  const closeModal = () => {
     setActiveModal(null);
   }
 
@@ -45,7 +45,7 @@ export default function Modal(props: ModalProps) {
           </h2>
           <button
             type='button'
-            onClick={handleClose}
+            onClick={closeModal}
             >
             Ｘ
           </button>

@@ -28,6 +28,11 @@ function ConfigPageContent(props: ConfigPageProps) {
   }
 
 
+  const openUpdatePasswordModal = () => {
+    setActiveModal('update-password');
+  }
+
+
   useEffect(() => {
     const getProfile = async () => {
       // TODO: request

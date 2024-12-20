@@ -19,7 +19,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
   }
 
 
-  const handleBlogOnDelete = async () => {
+  const deleteBlog = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log(props.blogId);
     router.push('../');
@@ -40,7 +40,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
       </button>
       <button
         type='button'
-        onClick={handleBlogOnDelete}
+        onClick={deleteBlog}
       >
         刪除
       </button>

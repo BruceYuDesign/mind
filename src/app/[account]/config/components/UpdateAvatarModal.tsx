@@ -16,7 +16,7 @@ export default function UpdateAvatarModal(props: UpdateAvatarModalProps) {
   const [avatar, setAvatar] = useState('');
 
 
-  const removeAvatar = () => {
+  const clearAvatar = () => {
     setAvatar('');
   }
 
@@ -44,7 +44,7 @@ export default function UpdateAvatarModal(props: UpdateAvatarModalProps) {
   }
 
 
-  const handleAvatarOnUpdate = async () => {
+  const updateAvatar = async () => {
     if (avatar !== props.avatar) {
       await new Promise(resolve => setTimeout(resolve, 500));
       router.refresh();
@@ -74,7 +74,7 @@ export default function UpdateAvatarModal(props: UpdateAvatarModalProps) {
       />
       <button
         type='button'
-        onClick={removeAvatar}
+        onClick={clearAvatar}
       >
         移除頭貼
       </button>
@@ -92,7 +92,7 @@ export default function UpdateAvatarModal(props: UpdateAvatarModalProps) {
       </button>
       <button
         type='button'
-        onClick={handleAvatarOnUpdate}
+        onClick={updateAvatar}
       >
         確定
       </button>

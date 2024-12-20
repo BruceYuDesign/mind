@@ -20,7 +20,7 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
   const { setActiveModal } = useModal();
 
 
-  const handleBlogOnUpdate = async (content: string) => {
+  const updateBlog = async (content: string) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     router.refresh();
     setActiveModal(null);
@@ -40,7 +40,7 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
     >
       <Editor
         initialContent={props.content}
-        editorOnSave={handleBlogOnUpdate}
+        saveContent={updateBlog}
       />
     </Modal>
   )

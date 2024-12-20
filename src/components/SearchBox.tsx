@@ -18,7 +18,7 @@ export default function SearchBox(props: SearchBoxProps) {
   }
 
 
-  const handleSearchBoxOnSubmit = () => {
+  const searchBlogs = () => {
     const href = `/search${text ? `?text=${text}` : ''}`;
     router.push(href);
   };
@@ -36,7 +36,7 @@ export default function SearchBox(props: SearchBoxProps) {
       <button
         className='bg-black text-white font-bold text-foreground px-6 py-2 rounded-full'
         type='button'
-        onClick={handleSearchBoxOnSubmit}
+        onClick={searchBlogs}
       >
         搜尋
       </button>
