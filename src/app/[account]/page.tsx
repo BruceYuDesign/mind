@@ -2,10 +2,12 @@
 import type { BlogCardProps } from '@/components/BlogCard';
 import { useState, useEffect } from 'react';
 import { ModalProvider } from '@/context/ModalContext';
+import BlogCard from '@/components/BlogCard';
+import CreateBlogModal from '@/components/CreateBlogModal';
 import AutherTools from './components/AutherTools';
 import ReaderTools from './components/ReaderTools';
-import BlogCard from '@/components/BlogCard';
-import blogData from '@/mocks/blog-account.json';
+import LogOutModal from './components/LogOutModal';
+import blogData from '@/mocks/blog.json';
 
 
 interface AccountPageProps {
@@ -28,6 +30,8 @@ export default function AccountPage(props: AccountPageProps) {
           <AutherTools
             account={props.params.account}
           />
+          <CreateBlogModal/>
+          <LogOutModal/>
         </ModalProvider>
       )
     } else {
@@ -35,7 +39,7 @@ export default function AccountPage(props: AccountPageProps) {
         <ReaderTools
           account={props.params.account}
           isFollowed={false}
-        />
+        /> 
       )
     }
   }
@@ -45,7 +49,8 @@ export default function AccountPage(props: AccountPageProps) {
     // TODO: request
     await new Promise(resolve => setTimeout(resolve, 500));
     try {
-      setBlogs(blogData);
+      const autherBlog = blogData.filter(({ account }) => account === props.params.account);
+      setBlogs(autherBlog);
     } catch {
       console.error('Failed to request');
     }
@@ -63,7 +68,7 @@ export default function AccountPage(props: AccountPageProps) {
         <div className='w-40 h-40 rounded-full bg-slate-200'></div>
         <div>
           <h1 className='text-4xl font-bold'>
-            Your Account
+            {props.params.account}
           </h1>
           <p>
             Your Account Description

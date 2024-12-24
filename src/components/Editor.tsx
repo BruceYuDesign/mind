@@ -1,12 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 
 interface EditorProps {
-  initialContent: string;
-  saveContent: (content: string) => void;
+  content: string;
+  onChange: (content: string) => void;
 };
 
 
@@ -23,43 +22,15 @@ const quillModules = {
 };
 
 
-function Editor(props: EditorProps) {
-  const { initialContent } = props;
-  const [content, setContent] = useState<string>(initialContent);
-
-
-  const changeContent = (value: string) => {
-    setContent(value);
-  };
-
-
-  const saveContent = () => {
-    props.saveContent(content);
-  };
-
-
-  useEffect(() => {
-    setContent(initialContent);
-  }, [initialContent]);
-
-
+export default function Editor(props: EditorProps) {
   return (
     <>
       <ReactQuill
-        value={content}
+        value={props.content}
         placeholder='Type here...'
-        onChange={changeContent}
+        onChange={props.onChange}
         modules={quillModules}
       />
-      <button
-        onClick={saveContent}
-        type='button'
-      >
-        Save
-      </button>
     </>
   );
 };
-
-
-export default Editor;

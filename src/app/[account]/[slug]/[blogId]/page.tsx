@@ -1,4 +1,5 @@
 import 'server-only';
+import Link from 'next/link';
 import { ModalProvider } from '@/context/ModalContext';
 import AutherTools from './components/AutherTools';
 import ReaderTools from './components/ReaderTools';
@@ -60,6 +61,11 @@ export default async function BlogPage(props: BlogPageProps) {
       <ul className='flex flex-row gap-4'>
         {toolbarButtons()}
       </ul>
+      <Link
+        href={`/${props.params.account}`}
+      >
+        {props.params.account}
+      </Link>
       <div
         dangerouslySetInnerHTML={{
           __html: content,

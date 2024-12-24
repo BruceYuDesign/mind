@@ -9,19 +9,13 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 });
 
 
-interface UpdateBlogModalProps {
-  blogId: string;
-  content: string;
-};
-
-
-export default function UpdateBlogModal(props: UpdateBlogModalProps) {
+export default function CreateBlogModal() {
   const router = useRouter();
   const [content, setContent] = useState('');
   const { activeModal, setActiveModal } = useModal();
 
 
-  const updateBlog = async () => {
+  const createBlog = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     router.refresh();
     setActiveModal(null);
@@ -29,16 +23,16 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
 
 
   useEffect(() => {
-    if (activeModal === 'update-blog') {
-      setContent(props.content);
+    if (activeModal === 'create-blog') {
+      setContent('');
     }
   }, [activeModal]);
 
 
   return (
     <Modal
-      id='update-blog'
-      title='更新'
+      id='create-blog'
+      title='建立'
       size='lg'
     >
       <Editor
@@ -46,7 +40,7 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
         onChange={setContent}
       />
       <button
-        onClick={updateBlog}
+        onClick={createBlog}
         type='button'
       >
         Save

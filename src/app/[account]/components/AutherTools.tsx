@@ -19,6 +19,11 @@ export default function AutherTools(props: AutherToolsProps) {
   }
 
 
+  const openLogOutModal = () => {
+    setActiveModal('log-out');
+  }
+
+
   return (
     <>
       <Link
@@ -31,6 +36,12 @@ export default function AutherTools(props: AutherToolsProps) {
         onClick={openCreateBlogModal}
       >
         建立
+      </button>
+      <button
+        type='button'
+        onClick={openLogOutModal}
+      >
+        登出
       </button>
     </>
   )

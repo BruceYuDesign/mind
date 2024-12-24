@@ -1,5 +1,7 @@
-import Link from 'next/link';
+import { ModalProvider } from '@/context/ModalContext';
 import SearchBox from '@/components/SearchBox';
+import CreateBlogModal from '@/components/CreateBlogModal';
+import Tools from './components/Tool';
 
 
 export default function Home() {
@@ -14,11 +16,10 @@ export default function Home() {
       <h2 className='text-4xl font-bold'>
         隨時記錄你的想法
       </h2>
-      <Link
-        href='/your-account'
-      >
-        建立你的想法
-      </Link>
+      <ModalProvider>
+        <Tools/>
+        <CreateBlogModal/>
+      </ModalProvider>
       <span>
         或是
       </span>
