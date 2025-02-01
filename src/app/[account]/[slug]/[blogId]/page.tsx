@@ -63,6 +63,7 @@ export default async function BlogPage(props: BlogPageProps) {
       </ul>
       <Link
         href={`/${props.params.account}`}
+        scroll={false}
       >
         {props.params.account}
       </Link>

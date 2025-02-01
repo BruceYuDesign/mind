@@ -20,12 +20,15 @@ export default function SearchBox(props: SearchBoxProps) {
 
   const searchBlogs = () => {
     const href = `/search${text ? `?text=${text}` : ''}`;
-    router.push(href);
+    router.push(href, { scroll: false });
   };
 
 
   return (
-    <div className='w-3/4 p-2 flex flex-row border border-slate-100 shadow-slate-200 shadow-md rounded-full'>
+    <div
+      className='util-border
+      w-3/4 p-2 flex flex-row rounded-full'
+    >
       <input
         className='pl-6 flex-grow bg-transparent outline-none'
         type='text'
@@ -34,7 +37,7 @@ export default function SearchBox(props: SearchBoxProps) {
         onChange={changeText}
       />
       <button
-        className='bg-black text-white font-bold text-foreground px-6 py-2 rounded-full'
+        className='util-btn-primary'
         type='button'
         onClick={searchBlogs}
       >

@@ -14,6 +14,7 @@ export default function Tools() {
   return (
     <>
       <button
+        className='util-btn-primary'
         type='button'
         onClick={openCreateBlogModal}
       >

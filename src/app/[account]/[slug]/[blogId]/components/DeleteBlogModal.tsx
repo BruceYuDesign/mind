@@ -22,7 +22,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
   const deleteBlog = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log(props.blogId);
-    router.push('../');
+    router.push('../', { scroll: false });
   }
 
 

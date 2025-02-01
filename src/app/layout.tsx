@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
+import { StrictMode } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import '@/styles/globals.css';
-import { StrictMode } from 'react';
 
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function RootLayout({
       >
         <body>
           <Header/>
-          <main className='pt-32 pb-8'>
+          <main className='min-h-[calc(100vh-32px-var(--header-h))] py-8'>
             {children}
           </main>
           <Footer/>

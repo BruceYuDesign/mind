@@ -6,6 +6,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --header-h: 72px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,7 +19,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  @apply font-mono;
+  @apply font-serif;
 }
 
 
@@ -27,6 +28,37 @@ body {
     @apply max-w-screen-2xl w-11/12 mx-auto;
   }
 
+  .util-border,
+  .util-border-t,
+  .util-border-b,
+  .util-border-l,
+  .util-border-r {
+    @apply border-secondary-200;
+  }
   .util-border {
+    @apply border-2;
+  }
+  .util-border-t {
+    @apply border-t-2;
+  }
+  .util-border-b {
+    @apply border-b-2;
+  }
+  .util-border-l {
+    @apply border-l-2;
+  }
+  .util-border-r {
+    @apply border-r-2;
+  }
+
+  .util-btn-primary,
+  .util-btn-secondary {
+    @apply font-bold text-foreground px-6 py-2 rounded-full;
+  }
+  .util-btn-primary {
+    @apply bg-black text-white;
+  }
+  .util-btn-secondary {
+    @apply bg-white text-black;
   }
 }

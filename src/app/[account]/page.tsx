@@ -63,9 +63,9 @@ export default function AccountPage(props: AccountPageProps) {
 
 
   return (
-    <div>
+    <div className='util-container'>
       <div className='flex flex-row gap-8'>
-        <div className='w-40 h-40 rounded-full bg-slate-200'></div>
+        <div className='w-40 h-40 rounded-full bg-secondary-200'></div>
         <div>
           <h1 className='text-4xl font-bold'>
             {props.params.account}

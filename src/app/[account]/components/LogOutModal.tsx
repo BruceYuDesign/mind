@@ -16,7 +16,7 @@ export default function LogOutModal() {
 
   const logOut = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    router.push('/');
+    router.push('/', { scroll: false });
   }
 
 

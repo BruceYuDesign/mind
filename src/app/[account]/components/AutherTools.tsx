@@ -28,6 +28,7 @@ export default function AutherTools(props: AutherToolsProps) {
     <>
       <Link
         href={`/${props.account}/config`}
+        scroll={false}
       >
         修改資料
       </Link>
