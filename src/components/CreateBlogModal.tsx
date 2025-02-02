@@ -12,13 +12,15 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 export default function CreateBlogModal() {
   const router = useRouter();
   const [content, setContent] = useState('');
-  const { activeModal, setActiveModal } = useModal();
+  const { activeModal } = useModal();
 
 
   const createBlog = async () => {
+    const account = 'bruce';
+    const slug = 'test-blog'
+    const blogId = '12345678'
     await new Promise(resolve => setTimeout(resolve, 500));
-    router.refresh();
-    setActiveModal(null);
+    router.push(`/${account}/${slug}/${blogId}`);
   }
 
 

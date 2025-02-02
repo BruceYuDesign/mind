@@ -5,14 +5,14 @@ import UpdateAvatarModal from './components/UpdateAvatarModal';
 import UpdateIntroModal from './components/UpdateIntroModal';
 
 
-interface ConfigPageProps {
-  params: {
-    account: string;
-  };
-};
+// interface ConfigPageProps {
+//   params: {
+//     account: string;
+//   };
+// };
 
 
-function ConfigPageContent(props: ConfigPageProps) {
+function ConfigPageContent(/* props: ConfigPageProps */) {
   const { setActiveModal } = useModal();
   const [intro, setIntro] = useState('');
   const [avatar, setAvatar] = useState('');
@@ -40,7 +40,7 @@ function ConfigPageContent(props: ConfigPageProps) {
 
 
   return (
-    <>
+    <div className='util-container'>
       <div
         onClick={openEditAvatarModal}
       >
@@ -62,16 +62,16 @@ function ConfigPageContent(props: ConfigPageProps) {
       <UpdateIntroModal
         intro={intro}
       />
-    </>
+    </div>
   );
 };
 
 
-export default function ConfigPage(props: ConfigPageProps) {
+export default function ConfigPage(/* props: ConfigPageProps */) {
   return (
     <ModalProvider>
       <ConfigPageContent
-        {...props}
+        // {...props}
       />
     </ModalProvider>
   );

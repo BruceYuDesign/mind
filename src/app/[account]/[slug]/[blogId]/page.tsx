@@ -57,7 +57,7 @@ export default async function BlogPage(props: BlogPageProps) {
 
 
   return (
-    <div>
+    <div className='util-container'>
       <ul className='flex flex-row gap-4'>
         {toolbarButtons()}
       </ul>

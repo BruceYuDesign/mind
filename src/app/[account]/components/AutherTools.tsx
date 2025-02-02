@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useModal } from '@/context/ModalContext';
 
@@ -10,7 +10,7 @@ interface AutherToolsProps {
 
 
 export default function AutherTools(props: AutherToolsProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const { setActiveModal } = useModal();
 
 
