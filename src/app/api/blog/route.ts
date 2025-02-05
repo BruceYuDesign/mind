@@ -25,7 +25,7 @@ export async function POST(request: any) {
       },
     });
     return new Response(JSON.stringify({ id }), { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response('ERROR: Creating Blog', { status: 500 });
   }
 }
