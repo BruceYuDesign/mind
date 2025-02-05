@@ -16,11 +16,29 @@ export default function CreateBlogModal() {
 
 
   const createBlog = async () => {
-    const account = 'bruce';
+    const authorId = 'bruce';
     const slug = 'test-blog'
-    const blogId = '12345678'
-    await new Promise(resolve => setTimeout(resolve, 500));
-    router.push(`/${account}/${slug}/${blogId}`);
+    const title = 'Test Blog';
+    const description = 'This is a test blog';
+    const thumbnail = 'https://my-images/test-blog.jpg';
+    const tags = ['test', 'blog'];
+
+    const { id: blogId } = await fetch('/api/blog', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authorId,
+        slug,
+        title,
+        description,
+        thumbnail,
+        tags,
+      }),
+    }).then(response => response.json());
+
+    router.push(`/${authorId}/${slug}/${blogId}`);
   }
 
 
