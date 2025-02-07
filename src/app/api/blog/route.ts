@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function POST(request: Request) {
   try {
     const {
-      authorId,
+      author_id,
       slug,
       title,
       description,
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     } = await request.json();
     const { id } = await prisma.blog.create({
       data: {
-        authorId,
+        author_id,
         slug,
         title,
         description,

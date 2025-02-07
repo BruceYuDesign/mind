@@ -1,23 +1,29 @@
 開始開發：
 
-``` bash
+```bash
 npm run dev
 ```
 
 初始化 Prisma：
 
-``` bash
+```bash
 npx prisma init
 ```
 
 推送 schema 到資料庫：
 
-``` bash
+```bash
 npx prisma db push
 ```
 
 生成 Prisma Client：
 
-``` bash
+```bash
 npx prisma generate
+```
+
+生成假資料：
+
+```bash
+npx prisma db seed
 ```
