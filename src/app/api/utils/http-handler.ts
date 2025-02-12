@@ -3,7 +3,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 interface DataType {
   id: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 
@@ -93,7 +93,7 @@ export function responseHandler(responseDict: ResponseType, data?: DataType) {
 }
 
 
-export async function requestHandler(callback: Function) {
+export async function requestHandler(callback: () => Promise<Response>) {
   try {
     return await callback();
   } catch (error) {
