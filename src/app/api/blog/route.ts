@@ -1,94 +1,81 @@
 import type { NextRequest } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/app/api/utils/prisma';
+import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
 
-const prisma = new PrismaClient();
-
-
-export async function GET(request: NextRequest) {
+export const GET = (request: NextRequest) => requestHandler(async function() {
   const { searchParams } = request.nextUrl;
-  const text = searchParams.get('text');
+  const searchText = searchParams.get('text');
+  const searchPage = Number(searchParams.get('page')) || 1;
+  const perPage = 12;
 
-  const items = await prisma.blog.findMany({
-    where: {
-      ...(text ? { OR: [
-        { title: { contains: text }},
-        { description: { contains: text }},
-        { tags: { has: text }},
-      ]} : {}),
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      thumbnail: true,
-      tags: true,
-      updated_at: true,
-      author: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
+  const condition = {
+    ...(searchText ? { OR: [
+      { title: { contains: searchText }},
+      { description: { contains: searchText }},
+      { tags: { has: searchText }},
+    ]} : {}),
+  }
+
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.blog.count({ where: condition }),
+    prisma.blog.findMany({
+      where: condition,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        thumbnail: true,
+        tags: true,
+        updated_at: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
         },
       },
-    },
-    take: 6,
-  });
-
-  return new Response(JSON.stringify({
-    code: 2000,
-    message: 'SUCCESS',
-    data: {
-      items,
-      pagination: {
-        page: 2,
-        perPage: 10,
-        totalPages: 5,
-        totalItems: 50,
-        hasNext: true,
-        hasPrev: true,
+      take: perPage,
+      skip: (searchPage - 1) * perPage,
+      orderBy: {
+        updated_at: 'desc',
       },
+    }),
+  ]);
+
+  return responseHandler(responseDict.SUCCESS.GET_SUCCESSFUL, {
+    items,
+    pagenation: {
+      page: searchPage,
+      perPage,
+      totalPages: Math.ceil(totalItems / perPage),
+      totalItems,
     },
-  }), {
-    status: 200,
   });
-}
+});
 
 
-export async function POST(request: NextRequest) {
-  try {
-    const {
+export const POST = (request: NextRequest) => requestHandler(async function() {
+  const {
+    author_id,
+    slug,
+    title,
+    description,
+    thumbnail,
+    tags,
+  } = await request.json();
+
+  const { id } = await prisma.blog.create({
+    data: {
       author_id,
       slug,
       title,
       description,
       thumbnail,
       tags,
-    } = await request.json();
-    const { id } = await prisma.blog.create({
-      data: {
-        author_id,
-        slug,
-        title,
-        description,
-        thumbnail,
-        tags,
-      },
-    });
-    return new Response(JSON.stringify({
-      code: 2000,
-      message: 'SUCCESS',
-      data: { id },
-    }), {
-      status: 200,
-    });
-  } catch {
-    return new Response(JSON.stringify({
-      code: 5001,
-      message: 'ERROR: Internal Server Error',
-      data: null,
-    }), {
-      status: 200,
-    });
-  }
-}
+    },
+  });
+
+  return responseHandler(responseDict.SUCCESS.CREATE_SUCCESSFUL, { id });
+});

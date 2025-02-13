@@ -7,6 +7,17 @@ interface DataType {
 }
 
 
+interface DataWithPaginationType {
+  items: DataType[];
+  pagenation: {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    totalItems: number;
+  }
+}
+
+
 interface ResponseType {
   code: number;
   message: string;
@@ -81,10 +92,12 @@ export const responseDict = {
 
 const prismaErrorDict: Record<string, ResponseType> = {
   P2025: responseDict.CLIENT_ERROR.NOT_FOUND,
+  // TODO User Not Found
+  // TODO Bad Request
 }
 
 
-export function responseHandler(responseDict: ResponseType, data?: DataType) {
+export function responseHandler(responseDict: ResponseType, data?: DataType | DataWithPaginationType) {
   const httpStatusCode = Math.floor(responseDict.code / 10);
   return new Response(
     JSON.stringify({ data: data || null, ...responseDict }),

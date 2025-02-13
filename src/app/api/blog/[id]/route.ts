@@ -8,9 +8,11 @@ export const GET = (
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
   const { id } = await params;
+
   const data = await prisma.blog.findUnique({
     where: { id },
   });
+
   return data
     ? responseHandler(responseDict.SUCCESS.GET_SUCCESSFUL, data)
     : responseHandler(responseDict.CLIENT_ERROR.NOT_FOUND);
@@ -29,6 +31,7 @@ export const PUT = (
     thumbnail,
     tags,
   } = await request.json();
+
   const data = await prisma.blog.update({
     where: { id },
     data: {
@@ -39,6 +42,7 @@ export const PUT = (
       tags,
     },
   });
+
   return responseHandler(responseDict.SUCCESS.UPDATE_SUCCESSFUL, data);
 });
 
@@ -48,8 +52,10 @@ export const DELETE = (
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
   const { id } = await params;
+
   await prisma.blog.delete({
     where: { id },
   });
+
   return responseHandler(responseDict.SUCCESS.DELETE_SUCCESSFUL);
 });
