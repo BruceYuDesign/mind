@@ -2,9 +2,9 @@
 import type { BlogCardProps } from '@/components/BlogCard';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { fetchHandler } from '@/utils/fetchHandler';
 import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
-import blogData from '@/mocks/blog.json';
 
 
 function SearchPageContent() {
@@ -13,17 +13,11 @@ function SearchPageContent() {
 
 
   const getBlogs = async (text: string) => {
-    // TODO: request
-    await new Promise(resolve => setTimeout(resolve, 500));
-    try {
-      const filteredBlogs = blogData.filter(blog => (
-        blog.title.toLowerCase().includes(text.toLowerCase()) ||
-        blog.description.toLowerCase().includes(text.toLowerCase())
-      ));
-      setBlogs(filteredBlogs);
-    } catch {
-      console.error('Failed to request');
-    }
+    const data = await fetchHandler({
+      url: '/api/blog',
+      queryParams: { text },
+    });
+    setBlogs(data.items);
   };
 
 
@@ -44,7 +38,7 @@ function SearchPageContent() {
         {
           blogs.map(blog =>
             <BlogCard
-              key={blog.blog_id}
+              key={blog.id}
               {...blog}
             />
           )
@@ -61,4 +55,4 @@ export default function SearchPage() {
       <SearchPageContent/>
     </Suspense>
   );
-}
+};

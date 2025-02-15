@@ -1,13 +1,13 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
 import { useState, useEffect } from 'react';
+import { fetchHandler } from '@/utils/fetchHandler';
 import { ModalProvider } from '@/context/ModalContext';
 import BlogCard from '@/components/BlogCard';
 import CreateBlogModal from '@/components/CreateBlogModal';
 import AutherTools from './components/AutherTools';
 import ReaderTools from './components/ReaderTools';
 import LogOutModal from './components/LogOutModal';
-import blogData from '@/mocks/blog.json';
 
 
 interface AccountPageProps {
@@ -45,21 +45,26 @@ export default function AccountPage(props: AccountPageProps) {
   }
 
 
+  const getUser = async () => {
+    // TODO Get User Data
+  }
+
+
   const getBlogs = async () => {
-    // TODO: request
-    await new Promise(resolve => setTimeout(resolve, 500));
-    try {
-      const autherBlog = blogData.filter(({ account }) => account === props.params.account);
-      setBlogs(autherBlog);
-    } catch {
-      console.error('Failed to request');
-    }
+    const data = await fetchHandler({
+      url: '/api/blog',
+      queryParams: {
+        author: props.params.account,
+      },
+    });
+    setBlogs(data.items);
   };
 
 
   useEffect(() => {
+    getUser();
     getBlogs();
-  });
+  }, []);
 
 
   return (
@@ -85,7 +90,7 @@ export default function AccountPage(props: AccountPageProps) {
         {
           blogs.map(blog =>
             <BlogCard
-              key={blog.blog_id}
+              key={blog.id}
               {...blog}
             />
           )

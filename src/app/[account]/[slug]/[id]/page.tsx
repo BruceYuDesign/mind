@@ -1,6 +1,7 @@
 import 'server-only';
 import Link from 'next/link';
 import { ModalProvider } from '@/context/ModalContext';
+import { prisma } from '@/app/api/utils/prisma';
 import AutherTools from './components/AutherTools';
 import ReaderTools from './components/ReaderTools';
 import UpdateBlogModal from './components/UpdateBlogModal';
@@ -9,8 +10,7 @@ import DeleteBlogModal from './components/DeleteBlogModal';
 
 interface BlogPageProps {
   params: {
-    account: string;
-    blogId: string;
+    id: string;
   };
 };
 
@@ -19,35 +19,66 @@ export default async function BlogPage(props: BlogPageProps) {
 
 
   const getBlog = async () => {
-    // TODO: request
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return `<h1>hello world. ID: ${props.params.blogId}</h1>`;
-  }
+    const data = await prisma.blog.findUnique({
+      where: {
+        id: props.params.id,
+      },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        description: true,
+        thumbnail: true,
+        updated_at: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+    return data;
+  };
 
 
-  const content = await getBlog();
+  const data = await getBlog();
+
+
+  // TODO 404 Redirect
+  if (!data) {
+    return (
+      <div
+        className='util-container
+        w-screen h-screen flex items-center justify-center text-4xl'
+      >
+        404 ：）
+      </div>
+    );
+  };
 
 
   const toolbarButtons = () => {
     // TODO: compare account
-    const isAuther = props.params.account === 'bruce';
+    const isAuther = data.author.id === 'bruce';
     if (isAuther) {
       return (
         <ModalProvider>
           <AutherTools/>
           <UpdateBlogModal
-            blogId={props.params.blogId}
-            content={content}
+            id={props.params.id}
+            content={data.description}
           />
           <DeleteBlogModal
-            blogId={props.params.blogId}
+            id={props.params.id}
           />
         </ModalProvider>
       )
     } else {
       return (
         <ReaderTools
-          blogId={props.params.blogId}
+          id={props.params.id}
           isCollected={false}
           isFollowed={false}
         />
@@ -62,14 +93,14 @@ export default async function BlogPage(props: BlogPageProps) {
         {toolbarButtons()}
       </ul>
       <Link
-        href={`/${props.params.account}`}
+        href={`/${data.author.id}`}
         scroll={false}
       >
-        {props.params.account}
+        {data.author.name}
       </Link>
       <div
         dangerouslySetInnerHTML={{
-          __html: content,
+          __html: data.description,
         }}
       >
       </div>

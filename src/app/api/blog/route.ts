@@ -5,17 +5,31 @@ import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/h
 
 export const GET = (request: NextRequest) => requestHandler(async function() {
   const { searchParams } = request.nextUrl;
+  const searchAccount = searchParams.get('account');
   const searchText = searchParams.get('text');
   const searchPage = Number(searchParams.get('page')) || 1;
   const perPage = 12;
 
   const condition = {
-    ...(searchText ? { OR: [
-      { title: { contains: searchText }},
-      { description: { contains: searchText }},
-      { tags: { has: searchText }},
-    ]} : {}),
-  }
+    ...({
+      AND: {
+        ...(
+          searchText
+            ? { OR: [
+              { title: { contains: searchText }},
+              { description: { contains: searchText }},
+              { tags: { has: searchText }},
+            ]}
+            : {}
+        ),
+        ...(
+          searchAccount
+            ? { author: { id: { contains: searchAccount } } }
+            : {}
+        ),
+      },
+    }),
+  };
 
   const [totalItems, items] = await prisma.$transaction([
     prisma.blog.count({ where: condition }),
@@ -23,10 +37,10 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
       where: condition,
       select: {
         id: true,
+        slug: true,
         title: true,
         description: true,
         thumbnail: true,
-        tags: true,
         updated_at: true,
         author: {
           select: {

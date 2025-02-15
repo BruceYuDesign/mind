@@ -10,7 +10,7 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 
 
 interface UpdateBlogModalProps {
-  blogId: string;
+  id: string;
   content: string;
 };
 

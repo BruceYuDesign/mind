@@ -19,7 +19,7 @@ export default function SearchBox(props: SearchBoxProps) {
 
 
   const searchBlogs = () => {
-    const href = `/search${text ? `?text=${text}` : ''}`;
+    const href = `/search${text ? `?text=${text.trim()}` : ''}`;
     router.push(href, { scroll: false });
   };
 

@@ -3,20 +3,35 @@ import { prisma } from '@/app/api/utils/prisma';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
 
-export const GET = (
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) => requestHandler(async function() {
-  const { id } = await params;
+// export const GET = (
+//   request: NextRequest,
+//   { params }: { params: Promise<{ id: string }> }
+// ) => requestHandler(async function() {
+//   const { id } = await params;
 
-  const data = await prisma.blog.findUnique({
-    where: { id },
-  });
+//   const data = await prisma.blog.findUnique({
+//     where: { id },
+//     select: {
+//       id: true,
+//       slug: true,
+//       title: true,
+//       description: true,
+//       thumbnail: true,
+//       updated_at: true,
+//       author: {
+//         select: {
+//           id: true,
+//           name: true,
+//           avatar: true,
+//         },
+//       },
+//     },
+//   });
 
-  return data
-    ? responseHandler(responseDict.SUCCESS.GET_SUCCESSFUL, data)
-    : responseHandler(responseDict.CLIENT_ERROR.NOT_FOUND);
-});
+//   return data
+//     ? responseHandler(responseDict.SUCCESS.GET_SUCCESSFUL, data)
+//     : responseHandler(responseDict.CLIENT_ERROR.NOT_FOUND);
+// });
 
 
 export const PUT = (

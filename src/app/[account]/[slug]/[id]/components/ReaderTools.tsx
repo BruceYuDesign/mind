@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 
 interface ReaderToolsProps {
-  blogId: string;
+  id: string;
   isCollected: boolean;
   isFollowed: boolean;
 }

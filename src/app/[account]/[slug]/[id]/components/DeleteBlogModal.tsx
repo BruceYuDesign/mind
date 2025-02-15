@@ -5,7 +5,7 @@ import Modal from '@/components/Modal';
 
 
 interface DeleteBlogModalProps {
-  blogId: string;
+  id: string;
 };
 
 
@@ -21,7 +21,7 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
 
   const deleteBlog = async () => {
     await new Promise(resolve => setTimeout(resolve, 500));
-    console.log(props.blogId);
+    console.log(props.id);
     router.push('../', { scroll: false });
   }
 
