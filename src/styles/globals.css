@@ -61,4 +61,20 @@ body {
   .util-btn-secondary {
     @apply bg-white text-black;
   }
+
+  .util-field {
+    @apply flex flex-col gap-1;
+  }
+  .util-field > input,
+  .util-field > textarea,
+  .util-field > select,
+  .util-field > .util-field-image {
+    @apply border-secondary-200 border-2 p-2 outline-none rounded-md;
+  }
+  .util-field > input[type='file'] {
+    @apply hidden;
+  }
+  .util-field > .util-field-image {
+    @apply bg-center bg-no-repeat bg-cover cursor-pointer;
+  }
 }

@@ -30,11 +30,11 @@ export default function Modal(props: ModalProps) {
     <div
       className={
         `${ activeModal === props.id ? 'block' : 'hidden'}` +
-        ' fixed top-0 left-0 right-0 bottom-0 h-screen w-screen flex justify-center items-center bg-black/50 z-50'
+        ' fixed top-0 left-0 right-0 bottom-0 h-screen w-screen py-16 flex justify-center items-start bg-black/50 z-50 overflow-auto'
       }
     >
       <div
-        className='w-11/12 flex flex-col items-stretch justify-start p-4 bg-white'
+        className='w-11/12 my-auto flex flex-col items-stretch justify-start p-4 bg-white'
         style={{
           maxWidth: modalWidth[props.size || 'md'],
         }}

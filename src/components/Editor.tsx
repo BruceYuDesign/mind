@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 
 
 interface EditorProps {
-  content: string;
+  defaultValue: string;
   onChange: (content: string) => void;
 };
 
@@ -24,13 +24,11 @@ const quillModules = {
 
 export default function Editor(props: EditorProps) {
   return (
-    <>
-      <ReactQuill
-        value={props.content}
-        placeholder='Type here...'
-        onChange={props.onChange}
-        modules={quillModules}
-      />
-    </>
+    <ReactQuill
+      value={props.defaultValue}
+      placeholder='Type here...'
+      onChange={props.onChange}
+      modules={quillModules}
+    />
   );
 };

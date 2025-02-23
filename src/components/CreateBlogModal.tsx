@@ -20,8 +20,8 @@ export default function CreateBlogModal() {
     const slug = 'test-blog'
     const title = 'Test Blog';
     const description = 'This is a test blog';
+    const content = '<p>This is a test blog</p><br><p>It is a test blog</p>';
     const thumbnail = 'https://my-images/test-blog.jpg';
-    const tags = ['test', 'blog'];
 
     const { id: blogId } = await fetch('/api/blog', {
       method: 'POST',
@@ -33,8 +33,8 @@ export default function CreateBlogModal() {
         slug,
         title,
         description,
+        content,
         thumbnail,
-        tags,
       }),
     }).then(response => response.json());
 
@@ -56,7 +56,7 @@ export default function CreateBlogModal() {
       size='lg'
     >
       <Editor
-        content={content}
+        defaultValue={content}
         onChange={setContent}
       />
       <button

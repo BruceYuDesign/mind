@@ -28,6 +28,7 @@ export default async function BlogPage(props: BlogPageProps) {
         slug: true,
         title: true,
         description: true,
+        content: true,
         thumbnail: true,
         updated_at: true,
         author: {
@@ -61,14 +62,17 @@ export default async function BlogPage(props: BlogPageProps) {
 
   const toolbarButtons = () => {
     // TODO: compare account
-    const isAuther = data.author.id === 'bruce';
+    const isAuther = data.author.id === 'default_user';
     if (isAuther) {
       return (
         <ModalProvider>
           <AutherTools/>
           <UpdateBlogModal
-            id={props.params.id}
-            content={data.description}
+            id={data.id}
+            title={data.title}
+            description={data.description}
+            thumbnail={data.thumbnail}
+            content={data.content}
           />
           <DeleteBlogModal
             id={props.params.id}
@@ -100,7 +104,7 @@ export default async function BlogPage(props: BlogPageProps) {
       </Link>
       <div
         dangerouslySetInnerHTML={{
-          __html: data.description,
+          __html: data.content,
         }}
       >
       </div>

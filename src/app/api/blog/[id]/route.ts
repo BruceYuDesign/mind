@@ -16,6 +16,7 @@ import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/h
 //       slug: true,
 //       title: true,
 //       description: true,
+//       content: true,
 //       thumbnail: true,
 //       updated_at: true,
 //       author: {
@@ -38,23 +39,27 @@ export const PUT = (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
+  // TODO 從 cookie 中取得 author_id
+
   const { id } = await params;
   const {
-    slug,
+    // slug,
     title,
     description,
     thumbnail,
-    tags,
+    content,
   } = await request.json();
+
+  // TODO 確認是否為該使用者的 blog
 
   const data = await prisma.blog.update({
     where: { id },
     data: {
-      slug,
+      slug: '', // TODO 後端生成 slug
       title,
       description,
       thumbnail,
-      tags,
+      content,
     },
   });
 
@@ -66,7 +71,11 @@ export const DELETE = (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
+  // TODO 從 cookie 中取得 author_id
+
   const { id } = await params;
+
+  // TODO 確認是否為該使用者的 blog
 
   await prisma.blog.delete({
     where: { id },

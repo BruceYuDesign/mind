@@ -18,7 +18,6 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
             ? { OR: [
               { title: { contains: searchText }},
               { description: { contains: searchText }},
-              { tags: { has: searchText }},
             ]}
             : {}
         ),
@@ -71,23 +70,25 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
 
 
 export const POST = (request: NextRequest) => requestHandler(async function() {
+  // TODO 從 cookie 中取得 author_id
+
   const {
-    author_id,
-    slug,
+    // author_id,
+    // slug,
     title,
     description,
     thumbnail,
-    tags,
+    content,
   } = await request.json();
 
   const { id } = await prisma.blog.create({
     data: {
-      author_id,
-      slug,
+      author_id: '', // TODO 串接使用者 id
+      slug: '', // TODO 後端生成 slug
       title,
       description,
+      content,
       thumbnail,
-      tags,
     },
   });
 

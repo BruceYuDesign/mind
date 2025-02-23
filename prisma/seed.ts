@@ -28,9 +28,9 @@ async function main() {
           id: `default_blog_${index}`,
           slug: `default-blog-no-${index}`,
           title: `Default Blog No.${index}`,
-          description: `This is a default blog.`,
+          description: 'This is a default blog.',
+          content: '<p>This is a test blog</p><br><p>It is a test blog</p>',
           thumbnail: null,
-          tags: ['Default Tag 1', 'Default Tag 2'],
           author_id: 'default_user',
         },
       })

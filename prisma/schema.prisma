@@ -23,8 +23,8 @@ model Blog {
   slug        String
   title       String
   description String
+  content     String
   thumbnail   String?
-  tags        String[]
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   author_id   String

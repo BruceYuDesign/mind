@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
 import Modal from '@/components/Modal';
+import Field from '@/components/Field';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
 });
@@ -11,13 +12,19 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 
 interface UpdateBlogModalProps {
   id: string;
+  title: string; 
+  description: string;
+  thumbnail: string | null;
   content: string;
 };
 
 
 export default function UpdateBlogModal(props: UpdateBlogModalProps) {
   const router = useRouter();
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(props.title);
+  const [description, setDescription] = useState(props.description);
+  const [thumbnail, setThumbnail] = useState(props.thumbnail);
+  const [content, setContent] = useState(props.content);
   const { activeModal, setActiveModal } = useModal();
 
 
@@ -30,6 +37,9 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
 
   useEffect(() => {
     if (activeModal === 'update-blog') {
+      setTitle(props.title);
+      setDescription(props.description);
+      setThumbnail(props.thumbnail);
       setContent(props.content);
     }
   }, [activeModal]);
@@ -41,10 +51,31 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
       title='更新'
       size='lg'
     >
-      <Editor
-        content={content}
-        onChange={setContent}
-      />
+      <div className='flex flex-col gap-4'>
+        <Field
+          type='text'
+          label='標題'
+          defaultValue={title}
+          onInput={setTitle}
+        />
+        <Field
+          type='textarea'
+          label='描述'
+          defaultValue={description}
+          onInput={setDescription}
+        />
+        <Field
+          type='image'
+          label='縮圖'
+          aspectRatio='1200/630'
+          defaultValue={thumbnail}
+          onChange={setThumbnail}
+        />
+        <Editor
+          defaultValue={content}
+          onChange={setContent}
+        />
+      </div>
       <button
         onClick={updateBlog}
         type='button'
