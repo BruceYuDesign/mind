@@ -1,38 +1,7 @@
 import type { NextRequest } from 'next/server';
+import { parse } from 'node-html-parser';
 import { prisma } from '@/app/api/utils/prisma';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
-
-
-// export const GET = (
-//   request: NextRequest,
-//   { params }: { params: Promise<{ id: string }> }
-// ) => requestHandler(async function() {
-//   const { id } = await params;
-
-//   const data = await prisma.blog.findUnique({
-//     where: { id },
-//     select: {
-//       id: true,
-//       slug: true,
-//       title: true,
-//       description: true,
-//       content: true,
-//       thumbnail: true,
-//       updated_at: true,
-//       author: {
-//         select: {
-//           id: true,
-//           name: true,
-//           avatar: true,
-//         },
-//       },
-//     },
-//   });
-
-//   return data
-//     ? responseHandler(responseDict.SUCCESS.GET_SUCCESSFUL, data)
-//     : responseHandler(responseDict.CLIENT_ERROR.NOT_FOUND);
-// });
 
 
 export const PUT = (
@@ -43,7 +12,6 @@ export const PUT = (
 
   const { id } = await params;
   const {
-    // slug,
     title,
     description,
     thumbnail,
@@ -51,13 +19,14 @@ export const PUT = (
   } = await request.json();
 
   // TODO 確認是否為該使用者的 blog
+  const author_id = 'default_user';
 
   const data = await prisma.blog.update({
-    where: { id },
+    where: { id, author_id },
     data: {
-      slug: '', // TODO 後端生成 slug
+      slug: encodeURI(title).replace(/\s+/g, '-'),
       title,
-      description,
+      description: description || parse(content).innerText.slice(0, 30),
       thumbnail,
       content,
     },
@@ -76,9 +45,10 @@ export const DELETE = (
   const { id } = await params;
 
   // TODO 確認是否為該使用者的 blog
+  const author_id = 'default_user';
 
   await prisma.blog.delete({
-    where: { id },
+    where: { id, author_id },
   });
 
   return responseHandler(responseDict.SUCCESS.DELETE_SUCCESSFUL);

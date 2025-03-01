@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
+import { fetchHandler } from '@/utils/fetchHandler';
 import Modal from '@/components/Modal';
 
 
@@ -20,8 +21,11 @@ export default function DeleteBlogModal(props: DeleteBlogModalProps) {
 
 
   const deleteBlog = async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    console.log(props.id);
+    await fetchHandler({
+      url: '/api/blog',
+      pathParams: [props.id],
+      method: 'DELETE',
+    });
     router.push('../', { scroll: false });
   }
 

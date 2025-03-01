@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
+import { fetchHandler } from '@/utils/fetchHandler';
 import Modal from '@/components/Modal';
 import Field from '@/components/Field';
 const Editor = dynamic(() => import('@/components/Editor'), {
@@ -29,7 +30,17 @@ export default function UpdateBlogModal(props: UpdateBlogModalProps) {
 
 
   const updateBlog = async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await fetchHandler({
+      url: '/api/blog',
+      pathParams: [props.id],
+      method: 'PUT',
+      body: {
+        title,
+        description,
+        thumbnail,
+        content,
+      },
+    });
     router.refresh();
     setActiveModal(null);
   }

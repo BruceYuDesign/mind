@@ -3,7 +3,9 @@ import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
+import { fetchHandler } from '@/utils/fetchHandler';
 import Modal from '@/components/Modal';
+import Field from '@/components/Field';
 const Editor = dynamic(() => import('@/components/Editor'), {
   ssr: false,
 });
@@ -11,39 +13,34 @@ const Editor = dynamic(() => import('@/components/Editor'), {
 
 export default function CreateBlogModal() {
   const router = useRouter();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
   const [content, setContent] = useState('');
   const { activeModal } = useModal();
 
 
   const createBlog = async () => {
-    const authorId = 'bruce';
-    const slug = 'test-blog'
-    const title = 'Test Blog';
-    const description = 'This is a test blog';
-    const content = '<p>This is a test blog</p><br><p>It is a test blog</p>';
-    const thumbnail = 'https://my-images/test-blog.jpg';
-
-    const { id: blogId } = await fetch('/api/blog', {
+    const { author_id, slug, id } = await fetchHandler({
+      url: '/api/blog',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        authorId,
-        slug,
+      body: {
         title,
         description,
-        content,
         thumbnail,
-      }),
-    }).then(response => response.json());
+        content,
+      },
+    });
 
-    router.push(`/${authorId}/${slug}/${blogId}`);
+    router.push(`/${author_id}/${slug}/${id}`);
   }
 
 
   useEffect(() => {
     if (activeModal === 'create-blog') {
+      setTitle('');
+      setDescription('');
+      setThumbnail('');
       setContent('');
     }
   }, [activeModal]);
@@ -55,10 +52,31 @@ export default function CreateBlogModal() {
       title='建立'
       size='lg'
     >
-      <Editor
-        defaultValue={content}
-        onChange={setContent}
-      />
+      <div className='flex flex-col gap-4'>
+        <Field
+          type='text'
+          label='標題'
+          defaultValue={title}
+          onInput={setTitle}
+        />
+        <Field
+          type='textarea'
+          label='描述'
+          defaultValue={description}
+          onInput={setDescription}
+        />
+        <Field
+          type='image'
+          label='縮圖'
+          aspectRatio='1200/630'
+          defaultValue={thumbnail}
+          onChange={setThumbnail}
+        />
+        <Editor
+          defaultValue={content}
+          onChange={setContent}
+        />
+      </div>
       <button
         onClick={createBlog}
         type='button'
