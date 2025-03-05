@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/context/ModalContext';
-import { fetchHandler } from '@/utils/fetchHandler';
+import { fetchHandler } from '@/utils/fetch-handler';
 import Modal from '@/components/Modal';
 import Field from '@/components/Field';
 const Editor = dynamic(() => import('@/components/Editor'), {

@@ -110,6 +110,7 @@ export async function requestHandler(callback: () => Promise<Response>) {
   try {
     return await callback();
   } catch (error) {
+    console.error(error);
     if (error instanceof PrismaClientKnownRequestError) {
       const matchError = prismaErrorDict[error.code];
       if (matchError) {

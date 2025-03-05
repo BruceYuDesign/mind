@@ -1,7 +1,7 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
 import { useState, useEffect } from 'react';
-import { fetchHandler } from '@/utils/fetchHandler';
+import { fetchHandler } from '@/utils/fetch-handler';
 import { ModalProvider } from '@/context/ModalContext';
 import BlogCard from '@/components/BlogCard';
 import CreateBlogModal from '@/components/CreateBlogModal';

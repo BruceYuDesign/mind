@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { parse } from 'node-html-parser';
-import { blogValidator } from '@/utils/dataVerify';
+import { blogValidator } from '@/utils/data-validator';
 import { prisma } from '@/app/api/utils/prisma';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
@@ -74,12 +74,18 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
 export const POST = (request: NextRequest) => requestHandler(async function() {
   // TODO 從 cookie 中取得 author_id
 
+  const requestData = await request.json();
+
+  if (!blogValidator(requestData).isVerify()) {
+    return responseHandler(responseDict.CLIENT_ERROR.BAD_REQUEST);
+  }
+
   const {
     title,
     description,
     thumbnail,
     content,
-  } = await request.json();
+  } = requestData;
 
   const { author_id, id, slug } = await prisma.blog.create({
     data: {

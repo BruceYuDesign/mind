@@ -2,7 +2,7 @@
 import type { BlogCardProps } from '@/components/BlogCard';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { fetchHandler } from '@/utils/fetchHandler';
+import { fetchHandler } from '@/utils/fetch-handler';
 import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
 
