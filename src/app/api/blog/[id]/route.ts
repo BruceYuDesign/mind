@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { parse } from 'node-html-parser';
+import { blogValidator } from '@/utils/data-validator';
 import { prisma } from '@/app/api/utils/prisma';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
@@ -11,12 +12,18 @@ export const PUT = (
   // TODO 從 cookie 中取得 author_id
 
   const { id } = await params;
+  const requestData = await request.json();
+
+  if (!blogValidator(requestData).isVerify()) {
+    return responseHandler(responseDict.CLIENT_ERROR.BAD_REQUEST);
+  }
+
   const {
     title,
     description,
     thumbnail,
     content,
-  } = await request.json();
+  } = requestData;
 
   // TODO 確認是否為該使用者的 blog
   const author_id = 'default_user';
@@ -24,7 +31,7 @@ export const PUT = (
   const data = await prisma.blog.update({
     where: { id, author_id },
     data: {
-      slug: encodeURI(title).replace(/\s+/g, '-'),
+      slug: encodeURI(title.replace(/\s+/g, '-')),
       title,
       description: description || parse(content).innerText.slice(0, 30),
       thumbnail,

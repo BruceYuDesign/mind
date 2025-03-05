@@ -27,7 +27,7 @@ function validatorMethods(data: DataType, schema: SchemaType) {
           return [required ? `Data "${key}" is required.` : null];
         };
         return rules.map(({ rule, message }) =>
-          rule() ? message : null
+          rule() ? null : message
         );
       })
       .filter(message => message),

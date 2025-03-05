@@ -71,7 +71,7 @@ export default async function BlogPage(props: BlogPageProps) {
             id={data.id}
             title={data.title}
             description={data.description}
-            thumbnail={data.thumbnail}
+            thumbnail={data.thumbnail || ''}
             content={data.content}
           />
           <DeleteBlogModal

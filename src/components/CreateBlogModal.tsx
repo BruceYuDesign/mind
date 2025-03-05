@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { blogValidator } from '@/utils/data-validator';
 import { useModal } from '@/context/ModalContext';
 import { fetchHandler } from '@/utils/fetch-handler';
 import Modal from '@/components/Modal';
@@ -21,6 +22,18 @@ export default function CreateBlogModal() {
 
 
   const createBlog = async () => {
+    const errors = blogValidator({
+      title,
+      description,
+      thumbnail,
+      content,
+    }).getErrors();
+
+    if (errors.length) {
+      alert(errors.join('\n'));
+      return;
+    }
+
     const { author_id, slug, id } = await fetchHandler({
       url: '/api/blog',
       method: 'POST',

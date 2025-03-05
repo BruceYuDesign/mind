@@ -90,7 +90,7 @@ export const POST = (request: NextRequest) => requestHandler(async function() {
   const { author_id, id, slug } = await prisma.blog.create({
     data: {
       author_id: 'default_user', // TODO 串接使用者 id
-      slug: encodeURI(title).replace(/\s+/g, '-'),
+      slug: encodeURI(title.replace(/\s+/g, '-')),
       title,
       description: description || parse(content).innerText.slice(0, 30),
       thumbnail,
