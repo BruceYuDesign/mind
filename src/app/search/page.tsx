@@ -1,6 +1,6 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { fetchHandler } from '@/utils/fetch-handler';
 import SearchBox from '@/components/SearchBox';
@@ -45,6 +45,15 @@ function SearchPageContent() {
       setPage(prev => prev + 1);
     }
   };
+
+
+  useEffect(() => {
+    const prevPage = page;
+    totalPages.current = 0;
+    setBlogs([]);
+    setPage(1);
+    prevPage === 1 && getBlogs();
+  }, [searchText]);
 
 
   useEffect(() => {
