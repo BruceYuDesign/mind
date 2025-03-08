@@ -15,7 +15,7 @@ export default function SearchBox(props: SearchBoxProps) {
 
   const changeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
-  }
+  };
 
 
   const searchBlogs = () => {

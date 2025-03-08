@@ -1,12 +1,13 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { fetchHandler } from '@/utils/fetch-handler';
 import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
 
 
+// TODO 重複搜尋
 function SearchPageContent() {
   const searchText = useSearchParams().get('text') || '';
 
@@ -36,7 +37,7 @@ function SearchPageContent() {
   };
 
 
-  const windowOnScroll = () => {
+  const windowOnScroll = useCallback(() => {
     if (!ref.current) return;
     const nextPageTop = ref.current.getBoundingClientRect().top;
     const windowHeight = window.innerHeight;
@@ -44,7 +45,7 @@ function SearchPageContent() {
     if (nextPageTop < windowHeight && page < totalPages.current) {
       setPage(prev => prev + 1);
     }
-  };
+  }, [searchText, page]);
 
 
   useEffect(() => {
