@@ -53,7 +53,9 @@ function SearchPageContent() {
     totalPages.current = 0;
     setBlogs([]);
     setPage(1);
-    prevPage === 1 && getBlogs();
+    if (prevPage === 1) {
+      getBlogs();
+    }
   }, [searchText]);
 
 
