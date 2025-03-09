@@ -16,12 +16,12 @@ function SearchPageContent() {
 
   const ref = useRef<HTMLDivElement>(null);
   const totalPages = useRef(0);
-  const isFetching = useRef(false);
+  const isLoading = useRef(false);
 
 
   const getBlogs = async () => {
-    if (isFetching.current) return;
-    isFetching.current = true;
+    if (isLoading.current) return;
+    isLoading.current = true;
 
     const data = await fetchHandler({
       url: '/api/blog',
@@ -33,7 +33,7 @@ function SearchPageContent() {
 
     setBlogs(prev => [...prev, ...data.items]);
     totalPages.current = data.pagenation.totalPages;
-    isFetching.current = false;
+    isLoading.current = false;
   };
 
 
@@ -79,6 +79,7 @@ function SearchPageContent() {
     >
       <SearchBox
         defaultValue={searchText}
+        isLoading={isLoading.current}
       />
       <div className='w-full grid grid-cols-3 gap-8'>
         {

@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 interface SearchBoxProps {
   defaultValue?: string;
+  isLoading?: boolean;
 }
 
 
@@ -19,6 +20,7 @@ export default function SearchBox(props: SearchBoxProps) {
 
 
   const searchBlogs = () => {
+    if (props.isLoading) return;
     const href = `/search${text ? `?text=${text.trim()}` : ''}`;
     router.push(href, { scroll: false });
   };
@@ -41,7 +43,7 @@ export default function SearchBox(props: SearchBoxProps) {
         type='button'
         onClick={searchBlogs}
       >
-        搜尋
+        { props.isLoading ? '讀取' : '搜尋' }
       </button>
     </div>
   );
