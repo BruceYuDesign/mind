@@ -1,9 +1,7 @@
 'use client';
-import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { fetchHandler } from '@/utils/fetch-handler';
+import { useEffect } from 'react';
 import { ModalProvider } from '@/context/ModalContext';
-import BlogCard from '@/components/BlogCard';
+import BlogList from '@/components/BlogList';
 import CreateBlogModal from '@/components/CreateBlogModal';
 import AutherTools from './components/AutherTools';
 import ReaderTools from './components/ReaderTools';
@@ -18,12 +16,6 @@ interface AccountPageProps {
 
 
 export default function AccountPage(props: AccountPageProps) {
-  const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
-  const [page, setPage] = useState<number>(1);
-  
-  const ref = useRef<HTMLDivElement>(null);
-  const totalPages = useRef(0);
-  const isLoading = useRef(false);
 
 
   const toolbarButtons = () => {
@@ -46,61 +38,18 @@ export default function AccountPage(props: AccountPageProps) {
           isFollowed={false}
         /> 
       )
-    }
-  }
+    };
+  };
 
 
   const getUser = async () => {
     // TODO Get User Data
-  }
+  };
 
 
   useEffect(() => {
     getUser();
-    getBlogs();
   }, []);
-
-
-  const getBlogs = async () => {
-    if (isLoading.current) return;
-    isLoading.current = true;
-
-    const data = await fetchHandler({
-      url: '/api/blog',
-      queryParams: {
-        author: props.params.account,
-        page,
-      },
-    });
-
-    setBlogs(prev => [...prev, ...data.items]);
-    totalPages.current = data.pagenation.totalPages;
-    isLoading.current = false;
-  };
-
-
-  const windowOnScroll = useCallback(() => {
-    if (!ref.current) return;
-    const nextPageTop = ref.current.getBoundingClientRect().top;
-    const windowHeight = window.innerHeight;
-
-    if (nextPageTop < windowHeight && page < totalPages.current) {
-      setPage(prev => prev + 1);
-    }
-  }, [page]);
-
-
-  useEffect(() => {
-    getBlogs();
-  }, [page]);
-
-
-  useEffect(() => {
-    window.addEventListener('scroll', windowOnScroll);
-    return () => {
-      window.removeEventListener('scroll', windowOnScroll);
-    };
-  }, [windowOnScroll]);
 
 
   return (
@@ -122,17 +71,11 @@ export default function AccountPage(props: AccountPageProps) {
       <ul className='flex flex-row gap-4'>
         {toolbarButtons()}
       </ul>
-      <div className='w-full grid grid-cols-3 gap-8'>
-        {
-          blogs.map(blog =>
-            <BlogCard
-              key={blog.id}
-              {...blog}
-            />
-          )
-        }
-      </div>
-      <div ref={ref}></div>
+      <BlogList
+        queryParams={{
+          auther: props.params.account,
+        }}
+      />
     </div>
   );
-}
+};
