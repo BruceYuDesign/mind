@@ -7,7 +7,7 @@ import SearchBox from '@/components/SearchBox';
 import BlogCard from '@/components/BlogCard';
 
 
-// TODO 重複搜尋
+// TODO Create BlogList Component
 function SearchPageContent() {
   const searchText = useSearchParams().get('text') || '';
 
