@@ -1,6 +1,9 @@
 'use client';
 import { useEffect } from 'react';
 import { ModalProvider } from '@/context/ModalContext';
+import { SessionProvider, signIn,
+  // signOut, useSession
+} from 'next-auth/react';
 import BlogList from '@/components/BlogList';
 import CreateBlogModal from '@/components/CreateBlogModal';
 import AutherTools from './components/AutherTools';
@@ -15,7 +18,7 @@ interface AccountPageProps {
 };
 
 
-export default function AccountPage(props: AccountPageProps) {
+function AccountPageContent(props: AccountPageProps) {
 
 
   const toolbarButtons = () => {
@@ -69,6 +72,13 @@ export default function AccountPage(props: AccountPageProps) {
         </div>
       </div>
       <ul className='flex flex-row gap-4'>
+        {/* TODO: Just Test */}
+        <button
+          type='button'
+          onClick={() => signIn()}
+        >
+          登入
+        </button>
         {toolbarButtons()}
       </ul>
       <BlogList
@@ -77,5 +87,16 @@ export default function AccountPage(props: AccountPageProps) {
         }}
       />
     </div>
+  );
+};
+
+
+export default function AccountPage(props: AccountPageProps) {
+  return (
+    <SessionProvider>
+      <AccountPageContent
+        {...props}
+      />
+    </SessionProvider>
   );
 };
