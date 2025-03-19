@@ -31,15 +31,16 @@ export default function BlogList(props: BlogListProps) {
       }
     });
 
-    setBlogs(prevBlogs => page.current === 1
-      ? data.items
-      : [...prevBlogs, ...data.items]
+    setBlogs(prevBlogs =>
+      page.current === 1 ? data.items : [...prevBlogs, ...data.items]
     );
+
     totalPages.current = data.pagenation.totalPages;
     isLoading.current = false;
-  }, [props.queryParams, page, totalPages]);
+  }, [props.queryParams]);
 
 
+  // TODO: use IntersectionObserver
   const scrollToNextPage = useCallback(() => {
     if (!nextPageRef.current || isLoading.current) return;
     const nextPageTop = nextPageRef.current.getBoundingClientRect().top;
@@ -49,21 +50,23 @@ export default function BlogList(props: BlogListProps) {
       page.current += 1;
       getBlogs();
     }
-  }, [props.queryParams]);
+  }, [getBlogs]);
+
+
+  useEffect(() => {
+    const handleScroll = () => scrollToNextPage();
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollToNextPage]);
 
 
   useEffect(() => {
     page.current = 1;
     getBlogs();
   }, [props.queryParams]);
-
-
-  useEffect(() => {
-    window.addEventListener('scroll', scrollToNextPage);
-    return () => {
-      window.removeEventListener('scroll', scrollToNextPage);
-    };
-  }, [scrollToNextPage]);
 
 
   return (
