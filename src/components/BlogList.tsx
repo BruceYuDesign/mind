@@ -1,6 +1,6 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchHandler } from '@/utils/fetch-handler';
 import BlogCard from '@/components/BlogCard';
 
@@ -19,7 +19,7 @@ export default function BlogList(props: BlogListProps) {
   const isLoading = useRef<boolean>(false);
 
 
-  const getBlogs = async () => {
+  const getBlogs = useCallback(async () => {
     if (isLoading.current) return;
     isLoading.current = true;
 
@@ -31,15 +31,16 @@ export default function BlogList(props: BlogListProps) {
       }
     });
 
-    page.current === 1
-      ? setBlogs(data.items)
-      : setBlogs([...blogs, ...data.items]);
+    setBlogs(prevBlogs => page.current === 1
+      ? data.items
+      : [...prevBlogs, ...data.items]
+    );
     totalPages.current = data.pagenation.totalPages;
     isLoading.current = false;
-  };
+  }, [props.queryParams, page, totalPages]);
 
 
-  const scrollToNextPage = () => {
+  const scrollToNextPage = useCallback(() => {
     if (!nextPageRef.current || isLoading.current) return;
     const nextPageTop = nextPageRef.current.getBoundingClientRect().top;
     const windowHeight = window.innerHeight;
@@ -48,7 +49,7 @@ export default function BlogList(props: BlogListProps) {
       page.current += 1;
       getBlogs();
     }
-  };
+  }, [props.queryParams]);
 
 
   useEffect(() => {
@@ -67,7 +68,6 @@ export default function BlogList(props: BlogListProps) {
 
   return (
     <>
-      {/* 部落格清單 */}
       <div className='w-full grid grid-cols-3 gap-8'>
         {
           blogs.map(blog =>
@@ -78,7 +78,6 @@ export default function BlogList(props: BlogListProps) {
           )
         }
       </div>
-      {/* 下一頁觸發器 */}
       <div ref={nextPageRef}></div>
     </>
   );
