@@ -1,6 +1,6 @@
 'use client';
 import type { BlogCardProps } from '@/components/BlogCard';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchHandler } from '@/utils/fetch-handler';
 import BlogCard from '@/components/BlogCard';
 
@@ -12,14 +12,13 @@ interface BlogListProps {
 
 export default function BlogList(props: BlogListProps) {
   const [blogs, setBlogs] = useState<BlogCardProps[]>([]);
-  const [page, setPage] = useState<number>(1);
   
   const nextPageRef = useRef<HTMLDivElement>(null);
-  const totalPages = useRef(0);
-  const isLoading = useRef(false);
+  const page = useRef<number>(1);
+  const totalPages = useRef<number>(0);
+  const isLoading = useRef<boolean>(false);
 
 
-  // 取得部落格
   const getBlogs = async () => {
     if (isLoading.current) return;
     isLoading.current = true;
@@ -27,41 +26,35 @@ export default function BlogList(props: BlogListProps) {
     const data = await fetchHandler({
       url: '/api/blog',
       queryParams: {
-        page,
+        page: page.current,
         ...props.queryParams,
       }
     });
 
-    setBlogs(prev => [...prev, ...data.items]);
+    page.current === 1
+      ? setBlogs(data.items)
+      : setBlogs([...blogs, ...data.items]);
     totalPages.current = data.pagenation.totalPages;
     isLoading.current = false;
   };
 
 
-  // 滾動觸發下一頁
-  const scrollToNextPage = useCallback(() => {
-    if (!nextPageRef.current) return;
+  const scrollToNextPage = () => {
+    if (!nextPageRef.current || isLoading.current) return;
     const nextPageTop = nextPageRef.current.getBoundingClientRect().top;
     const windowHeight = window.innerHeight;
 
-    if (nextPageTop < windowHeight && page < totalPages.current) {
-      setPage(prev => prev + 1);
-    }
-  }, [page]);
-
-
-  useEffect(() => {
-    setBlogs([]);
-    setPage(1);
-    if (page === 1) {
+    if (nextPageTop < windowHeight && page.current < totalPages.current) {
+      page.current += 1;
       getBlogs();
     }
-  }, [props.queryParams]);
+  };
 
 
   useEffect(() => {
+    page.current = 1;
     getBlogs();
-  }, [page]);
+  }, [props.queryParams]);
 
 
   useEffect(() => {
