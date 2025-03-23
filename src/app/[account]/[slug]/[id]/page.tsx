@@ -1,11 +1,7 @@
 import 'server-only';
-import Link from 'next/link';
-import { ModalProvider } from '@/context/ModalContext';
 import { prisma } from '@/app/api/utils/prisma';
-import AutherTools from './components/AutherTools';
-import ReaderTools from './components/ReaderTools';
-import UpdateBlogModal from './components/UpdateBlogModal';
-import DeleteBlogModal from './components/DeleteBlogModal';
+import Link from 'next/link';
+import Tools from './components/Tools';
 
 
 interface BlogPageProps {
@@ -18,37 +14,31 @@ interface BlogPageProps {
 export default async function BlogPage(props: BlogPageProps) {
 
 
-  const getBlog = async () => {
-    const data = await prisma.blog.findUnique({
-      where: {
-        id: props.params.id,
-      },
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        description: true,
-        content: true,
-        thumbnail: true,
-        updated_at: true,
-        author: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-          },
+  const blogData = await prisma.blog.findUnique({
+    where: {
+      id: props.params.id,
+    },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      description: true,
+      content: true,
+      thumbnail: true,
+      updated_at: true,
+      author: {
+        select: {
+          name: true,
+          account: true,
+          avatar: true,
         },
       },
-    });
-    return data;
-  };
-
-
-  const data = await getBlog();
+    },
+  });
 
 
   // TODO 404 Redirect
-  if (!data) {
+  if (!blogData) {
     return (
       <div
         className='util-container
@@ -60,51 +50,25 @@ export default async function BlogPage(props: BlogPageProps) {
   };
 
 
-  const toolbarButtons = () => {
-    // TODO: compare account
-    const isAuther = data.author.id === 'default_user';
-    if (isAuther) {
-      return (
-        <ModalProvider>
-          <AutherTools/>
-          <UpdateBlogModal
-            id={data.id}
-            title={data.title}
-            description={data.description}
-            thumbnail={data.thumbnail || ''}
-            content={data.content}
-          />
-          <DeleteBlogModal
-            id={props.params.id}
-          />
-        </ModalProvider>
-      )
-    } else {
-      return (
-        <ReaderTools
-          id={props.params.id}
-          isCollected={false}
-          isFollowed={false}
-        />
-      )
-    }
-  }
-
-
   return (
     <div className='util-container'>
-      <ul className='flex flex-row gap-4'>
-        {toolbarButtons()}
-      </ul>
+      <Tools
+        id={blogData.id}
+        title={blogData.title}
+        description={blogData.description}
+        thumbnail={blogData.thumbnail || ''}
+        content={blogData.content}
+        account={blogData.author.account}
+      />
       <Link
-        href={`/${data.author.id}`}
+        href={`/${blogData.author.account}`}
         scroll={false}
       >
-        {data.author.name}
+        {blogData.author.name}
       </Link>
       <div
         dangerouslySetInnerHTML={{
-          __html: data.content,
+          __html: blogData.content,
         }}
       >
       </div>

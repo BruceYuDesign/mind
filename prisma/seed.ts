@@ -10,9 +10,10 @@ async function main() {
     update: {},
     create: {
       id: 'default_user',
-      google_id: 'default_google_id',
+      account: 'default_user',
       email: 'default_user@gmail.com',
       name: 'Default User',
+      provider: 'GOOGLE',
       avatar: null,
     },
   });
@@ -20,7 +21,7 @@ async function main() {
   console.log('Default User:', defaultUser);
 
   const defaultBlogs = await Promise.all(
-    Array.from({ length: 12 }).map((_, index) =>
+    Array.from({ length: 18 }).map((_, index) =>
       prisma.blog.upsert({
         where: { id: `default_blog_${index}` },
         update: {},

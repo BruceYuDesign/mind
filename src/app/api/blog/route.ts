@@ -12,6 +12,8 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
   const searchPage = Number(searchParams.get('page')) || 1;
   const perPage = 12;
 
+  // TODO 請求總數是不必要的開銷（因為前端不會顯示）
+
   const condition = {
     ...({
       AND: {

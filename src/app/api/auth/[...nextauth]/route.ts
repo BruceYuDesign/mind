@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
+import { prisma } from '@/app/api/utils/prisma';
 
 
 const handler = NextAuth({
@@ -22,6 +23,8 @@ const handler = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           throw new Error("請輸入 Email 和 密碼");
         }
+
+        // TODO 於平台註冊的用戶登入
 
         // const user = await getUserByEmail(credentials.email); // 你需要實作這個函數
         // if (!user) {
@@ -48,6 +51,47 @@ const handler = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account && token.email) {
+        // 檢查是否已存在
+        const user = await prisma.user.findUnique({
+          where: { email: token.email },
+        });
+
+        if (user) {
+          token.id = user.id;
+          token.account = user.account;
+        } else {
+          // 創建使用者
+          const newUser = await prisma.user.create({
+            data: {
+              email: token.email,
+              name: token.name as string,
+              avatar: token.picture as string,
+              // TODO 自動生成的帳號加入後綴 "-123456"
+              account: token.email.split('@')[0],
+              provider: 'GOOGLE',
+            },
+          });
+          token.id = newUser.id;
+          token.account = newUser.account;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          // TODO 危險，須考慮加密
+          id: token.id,
+          account: token.account,
+        },
+      };
+    },
+  },
 });
 
 

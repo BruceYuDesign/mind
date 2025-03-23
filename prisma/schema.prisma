@@ -7,10 +7,28 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
+/**
+ * 登入平台
+ * GOOGLE - Google OAuth
+ * LOCAL - 於平台註冊用戶
+ */
+enum Provider {
+  GOOGLE
+  LOCAL
+}
+
+/**
+ * User
+ * id {String} - 用戶 ID
+ * account {String} - 帳號
+ * password {String?} - 密碼，第三方登入免填
+ */
 model User {
   id         String   @id @default(cuid())
-  google_id  String   @unique
+  account    String   @unique
+  password   String?
   email      String   @unique
+  provider   Provider
   name       String
   avatar     String?
   blogs      Blog[]

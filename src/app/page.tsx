@@ -1,7 +1,7 @@
 import { ModalProvider } from '@/context/ModalContext';
 import SearchBox from '@/components/SearchBox';
 import CreateBlogModal from '@/components/CreateBlogModal';
-import Tools from './components/Tool';
+import Tools from './components/Tools';
 
 
 export default function Home() {

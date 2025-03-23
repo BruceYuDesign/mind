@@ -1,14 +1,7 @@
-'use client';
-import { useEffect } from 'react';
-import { ModalProvider } from '@/context/ModalContext';
-import { SessionProvider, signIn,
-  // signOut, useSession
-} from 'next-auth/react';
+import 'server-only';
+import { prisma } from '@/app/api/utils/prisma';
 import BlogList from '@/components/BlogList';
-import CreateBlogModal from '@/components/CreateBlogModal';
-import AutherTools from './components/AutherTools';
-import ReaderTools from './components/ReaderTools';
-import LogOutModal from './components/LogOutModal';
+import Tools from './components/Tools';
 
 
 interface AccountPageProps {
@@ -18,41 +11,33 @@ interface AccountPageProps {
 };
 
 
-function AccountPageContent(props: AccountPageProps) {
+export default async function AccountPage(props: AccountPageProps) {
 
 
-  const toolbarButtons = () => {
-    // TODO: compare account
-    const isAuther = props.params.account === 'bruce';
-    if (isAuther) {
-      return (
-        <ModalProvider>
-          <AutherTools
-            account={props.params.account}
-          />
-          <CreateBlogModal/>
-          <LogOutModal/>
-        </ModalProvider>
-      )
-    } else {
-      return (
-        <ReaderTools
-          account={props.params.account}
-          isFollowed={false}
-        /> 
-      )
-    };
+  // TODO add user's "about"
+  const userData = await prisma.user.findUnique({
+    where: {
+      account: props.params.account,
+    },
+    select: {
+      id: true,
+      name: true,
+      account: true,
+      avatar: true,
+    },
+  });
+
+
+  if (!userData) {
+    return (
+      <div
+        className='util-container
+        w-screen h-screen flex items-center justify-center text-4xl'
+      >
+        404 ：）
+      </div>
+    );
   };
-
-
-  const getUser = async () => {
-    // TODO Get User Data
-  };
-
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
 
   return (
@@ -61,42 +46,30 @@ function AccountPageContent(props: AccountPageProps) {
       flex flex-col gap-4'
     >
       <div className='flex flex-row gap-8'>
-        <div className='w-40 h-40 rounded-full bg-secondary-200'></div>
+        <div
+          className='w-40 h-40 rounded-full bg-secondary-200 bg-cover bg-center bg-no-repeat'
+          style={{
+            backgroundImage: `url(${userData.avatar})` || 'none',
+          }}
+        >
+        </div>
         <div>
           <h1 className='text-4xl font-bold'>
-            {props.params.account}
+            {userData.name}
           </h1>
           <p>
             Your Account Description
           </p>
         </div>
       </div>
-      <ul className='flex flex-row gap-4'>
-        {/* TODO: Just Test */}
-        <button
-          type='button'
-          onClick={() => signIn()}
-        >
-          登入
-        </button>
-        {toolbarButtons()}
-      </ul>
+      <Tools
+        account={props.params.account}
+      />
       <BlogList
         queryParams={{
-          auther: props.params.account,
+          account: props.params.account,
         }}
       />
     </div>
-  );
-};
-
-
-export default function AccountPage(props: AccountPageProps) {
-  return (
-    <SessionProvider>
-      <AccountPageContent
-        {...props}
-      />
-    </SessionProvider>
   );
 };

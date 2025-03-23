@@ -1,23 +1,21 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { useModal } from '@/context/ModalContext';
 import Modal from '@/components/Modal';
 
 
 export default function LogOutModal() {
-  const router = useRouter();
   const { setActiveModal } = useModal();
 
 
   const closeModal = () => {
     setActiveModal(null);
-  }
+  };
 
 
   const logOut = async () => {
-    await new Promise(resolve => setTimeout(resolve, 500));
-    router.push('/', { scroll: false });
-  }
+    signOut({ callbackUrl: '/' });
+  };
 
 
   return (
@@ -39,5 +37,5 @@ export default function LogOutModal() {
         登出
       </button>
     </Modal>
-  )
-}
+  );
+};

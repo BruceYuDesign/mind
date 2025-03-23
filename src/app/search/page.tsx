@@ -5,7 +5,6 @@ import SearchBox from '@/components/SearchBox';
 import BlogList from '@/components/BlogList';
 
 
-// TODO Create BlogList Component
 function SearchPageContent() {
   const searchText = useSearchParams().get('text') || '';
 
