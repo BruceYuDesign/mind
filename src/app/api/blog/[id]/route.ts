@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { parse } from 'node-html-parser';
 import { blogValidator } from '@/utils/data-validator';
 import { prisma } from '@/app/api/utils/prisma';
+import { getSession } from '@/app/api/utils/auth';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
 
@@ -9,7 +10,11 @@ export const PUT = (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
-  // TODO 從 cookie 中取得 author_id
+  // 檢查是否有 session
+  const session = await getSession();
+  if (!session || !session.user || !session.user.id) {
+    return responseHandler(responseDict.CLIENT_ERROR.UNAUTHORIZED);
+  }
 
   const { id } = await params;
   const requestData = await request.json();
@@ -25,11 +30,8 @@ export const PUT = (
     content,
   } = requestData;
 
-  // TODO 確認是否為該使用者的 blog
-  const author_id = 'default_user';
-
   const data = await prisma.blog.update({
-    where: { id, author_id },
+    where: { id, author_id: session.user.id },
     data: {
       slug: encodeURI(title.replace(/\s+/g, '-')),
       title,
@@ -47,15 +49,16 @@ export const DELETE = (
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) => requestHandler(async function() {
-  // TODO 從 cookie 中取得 author_id
+  // 檢查是否有 session
+  const session = await getSession();
+  if (!session || !session.user || !session.user.id) {
+    return responseHandler(responseDict.CLIENT_ERROR.UNAUTHORIZED);
+  }
 
   const { id } = await params;
 
-  // TODO 確認是否為該使用者的 blog
-  const author_id = 'default_user';
-
   await prisma.blog.delete({
-    where: { id, author_id },
+    where: { id, author_id: session.user.id },
   });
 
   return responseHandler(responseDict.SUCCESS.DELETE_SUCCESSFUL);

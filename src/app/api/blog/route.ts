@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { parse } from 'node-html-parser';
 import { blogValidator } from '@/utils/data-validator';
 import { prisma } from '@/app/api/utils/prisma';
+import { getSession } from '@/app/api/utils/auth';
 import { responseHandler, requestHandler, responseDict } from '@/app/api/utils/http-handler';
 
 
@@ -27,7 +28,7 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
         ),
         ...(
           searchAccount
-            ? { author: { id: { contains: searchAccount } } }
+            ? { author: { account: { contains: searchAccount } } }
             : {}
         ),
       },
@@ -47,7 +48,7 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
         updated_at: true,
         author: {
           select: {
-            id: true,
+            account: true,
             name: true,
             avatar: true,
           },
@@ -74,7 +75,11 @@ export const GET = (request: NextRequest) => requestHandler(async function() {
 
 
 export const POST = (request: NextRequest) => requestHandler(async function() {
-  // TODO 從 cookie 中取得 author_id
+  // 檢查是否有 session
+  const session = await getSession();
+  if (!session || !session.user || !session.user.id) {
+    return responseHandler(responseDict.CLIENT_ERROR.UNAUTHORIZED);
+  }
 
   const requestData = await request.json();
 
@@ -91,7 +96,7 @@ export const POST = (request: NextRequest) => requestHandler(async function() {
 
   const { author_id, id, slug } = await prisma.blog.create({
     data: {
-      author_id: 'default_user', // TODO 串接使用者 id
+      author_id: session.user.id,
       slug: encodeURI(title.replace(/\s+/g, '-')),
       title,
       description: description || parse(content).innerText.slice(0, 30),

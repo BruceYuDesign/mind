@@ -21,8 +21,8 @@ export default async function AccountPage(props: AccountPageProps) {
     },
     select: {
       id: true,
-      name: true,
       account: true,
+      name: true,
       avatar: true,
     },
   });

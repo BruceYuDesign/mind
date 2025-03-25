@@ -9,9 +9,9 @@ export interface BlogCardProps {
   thumbnail: string;
   updated_at: string;
   author: {
-    id: string,
-    name: string,
-    avatar: string,
+    account: string;
+    name: string;
+    avatar: string;
   }
 };
 
@@ -21,7 +21,7 @@ export default function BlogCard(props: BlogCardProps) {
     <Link
       className='util-border
       flex flex-col gap-2 cursor-pointer px-6 py-4 rounded-2xl'
-      href={`/${props.author.id}/${props.slug}/${props.id}`}
+      href={`/${props.author.account}/${props.slug}/${props.id}`}
       scroll={false}
     >
       <div
@@ -32,13 +32,13 @@ export default function BlogCard(props: BlogCardProps) {
       ></div>
       <Link
         className='flex flex-row gap-2 items-center'
-        href={`/${props.author.id}`}
+        href={`/${props.author.account}`}
         scroll={false}
       >
         <div
           className='w-8 h-8 rounded-full bg-secondary-200 bg-center bg-no-repeat bg-cover'
           style={{
-            backgroundImage: props.author.avatar,
+            backgroundImage: `url(${props.author.avatar})` || 'none',
           }}
         ></div>
         <p className='text-sm'>
