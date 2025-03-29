@@ -2,10 +2,11 @@
 import type { Session } from 'next-auth';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { ModalProvider } from '@/context/ModalContext';
+import CreateBlogModal from '@/components/CreateBlogModal';
 import AutherTools from './AutherTools';
 import ReaderTools from './ReaderTools';
 import LogOutModal from './LogOutModal';
-import CreateBlogModal from '@/components/CreateBlogModal';
+import UpdateUserModal from './UpdateUserModal';
 
 
 // TODO 模組化型別
@@ -22,6 +23,9 @@ interface ExtendedSession extends Session {
 
 interface ToolsProps {
   account: string;
+  name: string;
+  about: string;
+  avatar: string;
 };
 
 
@@ -37,8 +41,12 @@ function ToolsContent(props: ToolsProps) {
       {
         isAuther ? (
           <ModalProvider>
-            <AutherTools
+            <AutherTools/>
+            <UpdateUserModal
               account={props.account}
+              name={props.name}
+              email={props.about}
+              avatar={props.avatar}
             />
             <CreateBlogModal/>
             <LogOutModal/>

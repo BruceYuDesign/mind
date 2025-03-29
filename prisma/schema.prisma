@@ -22,6 +22,14 @@ enum Provider {
  * id {String} - 用戶 ID
  * account {String} - 帳號
  * password {String?} - 密碼，第三方登入免填
+ * email {String} - 電子郵件
+ * provider {Provider} - 登入平台
+ * name {String} - 姓名
+ * about {String?} - 關於我
+ * avatar {String?} - 頭像
+ * blogs {Blog[]} - 創建的部落格（關聯）
+ * created_at {DateTime} - 創建時間
+ * updated_at {DateTime} - 更新時間
  */
 model User {
   id         String   @id @default(cuid())
@@ -30,12 +38,26 @@ model User {
   email      String   @unique
   provider   Provider
   name       String
+  about      String?
   avatar     String?
   blogs      Blog[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
+/**
+ * Blog
+ * id {String} - 部落格 ID
+ * slug {String} - 部落格網址
+ * title {String} - 部落格標題
+ * description {String} - 部落格描述
+ * content {String} - 部落格內容
+ * thumbnail {String?} - 部落格封面
+ * created_at {DateTime} - 創建時間
+ * updated_at {DateTime} - 更新時間
+ * author_id {String} - 作者 ID
+ * author {User} - 作者（關聯）
+ */
 model Blog {
   id          String   @id @default(cuid())
   slug        String

@@ -53,8 +53,7 @@ function HeaderContent() {
             style={{
               backgroundImage: `url(${session?.user?.image})` || 'none',
             }}
-          >
-          </div>
+          />
         </button>
       </div>
     </header>

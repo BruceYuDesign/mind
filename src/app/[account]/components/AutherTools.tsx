@@ -1,37 +1,34 @@
 'use client';
-// import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useModal } from '@/context/ModalContext';
 
 
-interface AutherToolsProps {
-  account: string
-}
-
-
-export default function AutherTools(props: AutherToolsProps) {
-  // const router = useRouter();
+export default function AutherTools() {
   const { setActiveModal } = useModal();
+
+
+  const openUpdateUserModal = () => {
+    setActiveModal('update-user');
+  };
 
 
   const openCreateBlogModal = () => {
     setActiveModal('create-blog');
-  }
+  };
 
 
   const openLogOutModal = () => {
     setActiveModal('log-out');
-  }
+  };
 
 
   return (
     <>
-      <Link
-        href={`/${props.account}/config`}
-        scroll={false}
+      <button
+        type='button'
+        onClick={openUpdateUserModal}
       >
         修改資料
-      </Link>
+      </button>
       <button
         type='button'
         onClick={openCreateBlogModal}
@@ -45,5 +42,5 @@ export default function AutherTools(props: AutherToolsProps) {
         登出
       </button>
     </>
-  )
-}
+  );
+};

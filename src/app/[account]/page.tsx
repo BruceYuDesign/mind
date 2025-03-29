@@ -14,7 +14,6 @@ interface AccountPageProps {
 export default async function AccountPage(props: AccountPageProps) {
 
 
-  // TODO add user's "about"
   const userData = await prisma.user.findUnique({
     where: {
       account: props.params.account,
@@ -23,6 +22,7 @@ export default async function AccountPage(props: AccountPageProps) {
       id: true,
       account: true,
       name: true,
+      about: true,
       avatar: true,
     },
   });
@@ -51,23 +51,25 @@ export default async function AccountPage(props: AccountPageProps) {
           style={{
             backgroundImage: `url(${userData.avatar})` || 'none',
           }}
-        >
-        </div>
+        />
         <div>
           <h1 className='text-4xl font-bold'>
             {userData.name}
           </h1>
           <p>
-            Your Account Description
+            {userData.about}
           </p>
         </div>
       </div>
       <Tools
-        account={props.params.account}
+        account={userData.account}
+        name={userData.name}
+        about={userData.about || ''}
+        avatar={userData.avatar || ''}
       />
       <BlogList
         queryParams={{
-          account: props.params.account,
+          account: userData.account,
         }}
       />
     </div>
