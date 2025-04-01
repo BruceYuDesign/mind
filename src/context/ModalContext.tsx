@@ -13,7 +13,10 @@ interface ModalProviderProps {
 };
 
 
-const ModalContext = createContext<ModalContextType|null>(null);
+const ModalContext = createContext<ModalContextType>({
+  activeModal: null,
+  setActiveModal: () => {},
+});
 
 
 export function ModalProvider(props: ModalProviderProps) {
