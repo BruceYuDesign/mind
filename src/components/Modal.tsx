@@ -10,6 +10,7 @@ interface ModalProps {
   title: string;
   children: React.ReactNode;
   size?: ModalSize;
+  pages?: Array<React.ReactNode>;
 }
 
 
@@ -34,7 +35,7 @@ export default function Modal(props: ModalProps) {
       }
     >
       <div
-        className='w-11/12 my-auto flex flex-col items-stretch justify-start p-4 bg-white'
+        className='relative w-11/12 my-auto flex flex-col items-stretch justify-start p-4 bg-white'
         style={{
           maxWidth: modalWidth[props.size || 'md'],
         }}
@@ -50,8 +51,9 @@ export default function Modal(props: ModalProps) {
             Ｘ
           </button>
         </div>
+        {props.pages}
         {props.children}
       </div>
     </div>
   );
-}
+};

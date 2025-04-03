@@ -3,13 +3,11 @@ import { useModalPage } from '@/context/ModalPageContext';
 
 
 interface ModalPageProps {
-  pages: Array<{
-    id: string;
-    title: string;
-    children: React.ReactNode;
-    actionsText?: string;
-    actions?: () => void;
-  }>;
+  id: string;
+  title: string;
+  children: React.ReactNode;
+  actionsText?: string;
+  actions?: () => void;
 }
 
 
@@ -24,40 +22,35 @@ export default function ModalPage(props: ModalPageProps) {
 
 
   return (
-    <>
-      {props.pages.map(page =>
-        <div
-          className='w-full h-full flex flex-col'
-          style={{
-            display: page.id === currentPageId ? 'block' : 'none',
-            zIndex: page.id.split('_').length,
-          }}
-          key={page.id}
+    <div
+      className='bg-inherit absolute top-0 left-0 right-0 bottom-0 w-full h-full flex flex-col'
+      style={{
+        display: props.id === currentPageId ? 'block' : 'none',
+        zIndex: props.id.split('_').length,
+      }}
+    >
+      <div className='flex flex-row justify-between items-center'>
+        <button
+          onClick={goBack}
+          type='button'
         >
-          <div className='flex flex-row justify-between items-center'>
+          返回
+        </button>
+        <h3>
+          {props.title}
+        </h3>
+        {
+          props.actions && (
             <button
-              onClick={goBack}
+              onClick={props.actions}
               type='button'
             >
-              返回
+              {props.actionsText || '確定'}
             </button>
-            <h3>
-              {page.title}
-            </h3>
-            {
-              page.actions ? (
-                <button
-                  onClick={page.actions}
-                  type='button'
-                >
-                  {page.actionsText || '確定'}
-                </button>
-              ) : null
-            }
-          </div>
-          {page.children}
-        </div>
-      )}
-    </>
+          )
+        }
+      </div>
+      {props.children}
+    </div>
   );
 };

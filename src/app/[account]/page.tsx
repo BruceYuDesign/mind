@@ -24,6 +24,7 @@ export default async function AccountPage(props: AccountPageProps) {
       name: true,
       about: true,
       avatar: true,
+      provider: true,
     },
   });
 
@@ -66,6 +67,7 @@ export default async function AccountPage(props: AccountPageProps) {
         name={userData.name}
         about={userData.about || ''}
         avatar={userData.avatar || ''}
+        provider={userData.provider}
       />
       <BlogList
         queryParams={{

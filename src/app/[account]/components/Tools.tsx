@@ -26,6 +26,7 @@ interface ToolsProps {
   name: string;
   about: string;
   avatar: string;
+  provider: string;
 };
 
 
@@ -47,6 +48,7 @@ function ToolsContent(props: ToolsProps) {
               name={props.name}
               email={props.about}
               avatar={props.avatar}
+              provider={props.provider}
             />
             <CreateBlogModal/>
             <LogOutModal/>
